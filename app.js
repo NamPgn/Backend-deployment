@@ -22,8 +22,9 @@ app.use(express.static(path.resolve('./public')));
 app.get('/', (req, res) => {
     res.send("Đmm");
 })
+
 try {
-    mongoose.connect(`${process.env.MGDB}/React-toolkit-js`);
+    mongoose.connect(`${process.env.URI}/React-toolkit-js`);
     console.log("Kết nôt mongodb thành công")
 } catch (error) {
     console.log("lỗi rồi")
