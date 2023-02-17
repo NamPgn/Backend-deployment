@@ -19,11 +19,11 @@ app.use("/api", routerProducts);
 app.use("/api", routerCategory)
 app.use('/api', routerPostList)
 app.use(express.static(path.resolve('./public')));
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send("Đmm");
 })
 try {
-    mongoose.connect("mongodb://127.0.0.1:27017/React-toolkit-js");
+    mongoose.connect(`${process.env.MGDB}/React-toolkit-js`);
     console.log("Kết nôt mongodb thành công")
 } catch (error) {
     console.log("lỗi rồi")
