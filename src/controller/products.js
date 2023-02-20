@@ -21,7 +21,7 @@ export const getOne = async (req, res) => {
     res.status(200).json(data);
   } catch (error) {
     console.log(error)
-    return res.status(400).json({
+    res.status(400).json({
       message: "Không ìm thấy bài viết"
     })
   }
@@ -48,7 +48,7 @@ export const addProduct = async (req, res) => {
     res.status(200).json(data);
   } catch (error) {
     console.log(error);
-    return res.status(400).json({
+    res.status(400).json({
       message: "Không thêm đc Product"
     })
   }
@@ -61,7 +61,7 @@ export const delete_ = async (req, res) => {
     console.log("delete suscess")
     res.status(200).json(data);
   } catch (error) {
-    return res.status(400).json({
+    res.status(400).json({
       message: "Lỗi rồi"
     })
   }
@@ -89,7 +89,7 @@ export const editProduct = async (req, res) => {
     res.status(200).json(data);
   } catch (error) {
     console.log(error);
-    return res.status(400).json({
+    res.status(400).json({
       message: error
     })
   }
@@ -109,7 +109,7 @@ export const deleteMultipleProduct = async (req, res) => {
       id: id
     });
   } catch (error) {
-    return res.status(400).json({
+    res.status(400).json({
       message: "Lỗi rồi"
     })
   }
