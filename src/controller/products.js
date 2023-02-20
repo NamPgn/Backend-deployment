@@ -43,10 +43,10 @@ export const addProduct = async (req, res) => {
     }
     const data = await addPost(dataAdd);
     console.log("data", dataAdd);
-    res.status(200).json(data);
+    return res.status(200).json(data);
   } catch (error) {
     console.log(error);
-    res.status(400).json({
+    return res.status(400).json({
       message: "Không thêm đc Product"
     })
   }
@@ -57,9 +57,9 @@ export const delete_ = async (req, res) => {
     const id = req.params.id;
     const data = await deleteProduct(id);
     console.log("delete suscess")
-    res.status(200).json(data);
+    return res.status(200).json(data);
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Lỗi rồi"
     })
   }
@@ -84,10 +84,10 @@ export const editProduct = async (req, res) => {
     }
     const data = await editPost(_id, dataEdit);
     console.log("data", _id, data);
-    res.status(200).json(data);
+    return res.status(200).json(data);
   } catch (error) {
     console.log(error);
-    res.status(400).json({
+    return res.status(400).json({
       message: error
     })
   }
@@ -102,12 +102,12 @@ export const deleteMultipleProduct = async (req, res) => {
       }
     })
     console.log("id", data, "id", id);
-    res.status(200).json({
+    return res.status(200).json({
       data: data,
       id: id
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Lỗi rồi"
     })
   }
