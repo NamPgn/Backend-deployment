@@ -4,7 +4,7 @@ import { count } from "console";
 export const getAllProducts = async (req, res) => {
   try {
     const data = await getAll();
-    res.json(
+    res.status(200).json(
       data
     );
   } catch (error) {
@@ -18,7 +18,7 @@ export const getOne = async (req, res) => {
   try {
     const _id = { _id: req.params.id };
     const data = await get(_id);
-    res.json(data);
+    res.status(200).json(data);
   } catch (error) {
     console.log(error)
     return res.status(400).json({
@@ -45,7 +45,7 @@ export const addProduct = async (req, res) => {
     }
     const data = await addPost(dataAdd);
     console.log("data", dataAdd);
-    res.json(data);
+    res.status(200).json(data);
   } catch (error) {
     console.log(error);
     return res.status(400).json({
@@ -59,7 +59,7 @@ export const delete_ = async (req, res) => {
     const id = req.params.id;
     const data = await deleteProduct(id);
     console.log("delete suscess")
-    res.json(data);
+    res.status(200).json(data);
   } catch (error) {
     return res.status(400).json({
       message: "Lỗi rồi"
@@ -86,7 +86,7 @@ export const editProduct = async (req, res) => {
     }
     const data = await editPost(_id, dataEdit);
     console.log("data", _id, data);
-    res.json(data);
+    res.status(200).json(data);
   } catch (error) {
     console.log(error);
     return res.status(400).json({
@@ -104,7 +104,7 @@ export const deleteMultipleProduct = async (req, res) => {
       }
     })
     console.log("id", data, "id", id);
-    res.json({
+    res.status(200).json({
       data: data,
       id: id
     });
@@ -112,7 +112,6 @@ export const deleteMultipleProduct = async (req, res) => {
     return res.status(400).json({
       message: "Lỗi rồi"
     })
-    console.log(error)
   }
 }
 
