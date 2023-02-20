@@ -76,7 +76,7 @@ export const editProduct = async (req, res) => {
       category: category,
       price: price,
       descriptions: descriptions,
-      image: `http://localhost:${process.env.PORT}/product/` + filename,
+      image: `${process.env.URI}/product/` + filename,
       linkVideo: linkVideo,
       seri: seri,
       copyright: copyright,
