@@ -35,7 +35,7 @@ export const addProduct = async (req, res) => {
       category: category,
       price: price,
       descriptions: descriptions,
-      image: `http://localhost:${process.env.PORT}/product/` + filename,
+      image: `${process.env.BACKEND_DEPLOYMENT}/` + filename,
       linkVideo: linkVideo,
       seri: seri,
       copyright: copyright,
