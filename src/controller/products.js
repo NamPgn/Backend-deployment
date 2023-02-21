@@ -35,7 +35,7 @@ export const addProduct = async (req, res) => {
       category: category,
       price: price,
       descriptions: descriptions,
-      image: `https://test-19k8.onrender.com/` + filename,
+      image: `https://test-19k8.onrender.com/public/product` + filename,
       linkVideo: linkVideo,
       seri: seri,
       copyright: copyright,
