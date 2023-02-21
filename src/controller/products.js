@@ -113,3 +113,4 @@ export const deleteMultipleProduct = async (req, res) => {
   }
 }
 
+////12324tw7rt87wery8q7weyr78qwer

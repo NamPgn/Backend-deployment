@@ -5,10 +5,10 @@ export const getAllPostLists = async (req, res) => {
     const data = await getAllPostList();
     res.json(data);
   } catch (error) {
+    console.log(error)
     return res.status(400).json({
       message: "Lỗi rồi"
     })
-    console.log(error)
   }
 }
 
@@ -19,10 +19,10 @@ export const addPostList = async (req, res) => {
     console.log(dataContent);
     res.json(dataContent);
   } catch (error) {
+    console.log(error)
     return res.status(400).json({
       message: "Lỗi rồi"
     })
-    console.log(error)
   }
 }
 
@@ -32,10 +32,10 @@ export const deletePostList = async (req, res) => {
     const data = await deletePost(_id);
     res.json(data);
   } catch (error) {
+    console.log(error)
     return res.status(400).json({
       message: "Lỗi rồi"
     })
-    console.log(error)
   }
 }
 
@@ -46,9 +46,9 @@ export const updatePostList = async (req, res) => {
     const dataContent = await updatePost(_id, data);
     res.json(dataContent);
   } catch (error) {
+    console.log(error)
     return res.status(400).json({
       message: "Lỗi rồi"
     })
-    console.log(error)
   }
 }
