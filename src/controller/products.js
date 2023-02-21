@@ -29,13 +29,13 @@ export const addProduct = async (req, res) => {
   try {
     const { name, category, price, linkVideo, seri, copyright, LinkCopyright, descriptions } = req.body;
     // const payload=req.body;
-    const { filename } = req.file;
+    // const { filename } = req.file;
     const dataAdd = {
       name: name,
       category: category,
       price: price,
       descriptions: descriptions,
-      image: `https://test-19k8.onrender.com/product/${filename}`,
+      // image: `https://test-19k8.onrender.com/product/${filename}`,
       linkVideo: linkVideo,
       seri: seri,
       copyright: copyright,
@@ -68,15 +68,15 @@ export const delete_ = async (req, res) => {
 export const editProduct = async (req, res) => {
   try {
     const { name, category, price, _id, linkVideo, seri, copyright, LinkCopyright, descriptions } = req.body;
-    const { filename } = req.file;
+    // const { filename } = req.file;
     const s = req.body;
-    console.log('req.body', s);
+    // console.log('req.body', s);
     const dataEdit = {
       name: name,
       category: category,
       price: price,
       descriptions: descriptions,
-      image: `https://test-19k8.onrender.com/product/${filename}`,
+      // image: `https://test-19k8.onrender.com/product/${filename}`,
       linkVideo: linkVideo,
       seri: seri,
       copyright: copyright,

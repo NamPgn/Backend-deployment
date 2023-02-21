@@ -4,9 +4,9 @@ const productSchema = new Schema({
   name: {
     type: String
   },
-  image: {
-    type: String
-  },
+  // image: {
+  //   type: String
+  // },
   descriptions: {
     type: String
   },
