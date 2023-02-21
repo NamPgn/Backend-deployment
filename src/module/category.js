@@ -9,6 +9,9 @@ const categorySchema = new mongoose.Schema({
   },
   des: {
     type: String
+  },
+  sumSeri: {
+    type: String
   }
 }, { timestamps: true });
 

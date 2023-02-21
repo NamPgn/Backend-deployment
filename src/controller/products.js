@@ -76,7 +76,7 @@ export const editProduct = async (req, res) => {
       category: category,
       price: price,
       descriptions: descriptions,
-      image: `${process.env.BACKEND_DEPLOYMENT}/` + filename,
+      image: `https://test-19k8.onrender.com/` + filename,
       linkVideo: linkVideo,
       seri: seri,
       copyright: copyright,
