@@ -76,7 +76,7 @@ export const editProduct = async (req, res) => {
       category: category,
       price: price,
       descriptions: descriptions,
-      image: `https://test-19k8.onrender.com/public/product` + filename,
+      image: `https://test-19k8.onrender.com/product/${filename}`,
       linkVideo: linkVideo,
       seri: seri,
       copyright: copyright,
