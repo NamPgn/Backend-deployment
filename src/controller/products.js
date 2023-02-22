@@ -67,16 +67,16 @@ export const delete_ = async (req, res) => {
 
 export const editProduct = async (req, res) => {
   try {
-    const { name, category, price, _id, linkVideo, seri, copyright, LinkCopyright, descriptions } = req.body;
+    const { name, category, price, _id, image, linkVideo, seri, copyright, LinkCopyright, descriptions } = req.body;
     // const { filename } = req.file;
-    const s = req.body;
+    // const s = req.body;
     // console.log('req.body', s);
     const dataEdit = {
       name: name,
       category: category,
       price: price,
       descriptions: descriptions,
-      // image: `https://test-19k8.onrender.com/product/${filename}`,
+      image: image,
       linkVideo: linkVideo,
       seri: seri,
       copyright: copyright,
