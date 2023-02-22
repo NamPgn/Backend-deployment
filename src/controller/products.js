@@ -67,21 +67,21 @@ export const delete_ = async (req, res) => {
 
 export const editProduct = async (req, res) => {
   try {
-    const dataEdit = req.body;
+    const { name, category, price, _id, image, linkVideo, seri, copyright, LinkCopyright, descriptions } = req.body;
     // const { filename } = req.file;
     // const s = req.body;
     // console.log('req.body', s);
-    // const dataEdit = {
-    //   name: name,
-    //   category: category,
-    //   price: price,
-    //   descriptions: descriptions,
-    //   image: image,
-    //   linkVideo: linkVideo,
-    //   seri: seri,
-    //   copyright: copyright,
-    //   LinkCopyright: LinkCopyright
-    // }
+    const dataEdit = {
+      name: name,
+      category: category,
+      price: price,
+      descriptions: descriptions,
+      image: image,
+      linkVideo: linkVideo,
+      seri: seri,
+      copyright: copyright,
+      LinkCopyright: LinkCopyright
+    }
     const data = await editPost(_id, dataEdit);
     console.log("data", _id, data);
     return res.status(200).json(data);
