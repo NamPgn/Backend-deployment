@@ -7,9 +7,9 @@ const PORT = process.env.PORT;
 
 export const signup = async (req, res) => {
     try {
-        var { username, email, password, role } = req.body;
-        const { filename } = req.file;
-        filename ? filename : "https://taytou.com/wp-content/uploads/2022/08/Tai-anh-dai-dien-cute-de-thuong-hinh-meo-nen-xanh-la.png";
+        const { username, email, password, role, image } = req.body;
+        // const { filename } = req.file;
+        // filename ? filename : "https://taytou.com/wp-content/uploads/2022/08/Tai-anh-dai-dien-cute-de-thuong-hinh-meo-nen-xanh-la.png";
 
         // console.log("req.file", filename)
 
@@ -27,7 +27,7 @@ export const signup = async (req, res) => {
             username: username,
             email: email,
             password: hashPw,
-            image: `http://localhost:${process.env.PORT}/images/` + filename,
+            image: image,
             role: role
         }
         console.log("newUsser", newUser)
@@ -105,13 +105,13 @@ export const getAlluser = async (req, res) => {
 
 export const edit = async (req, res) => {
     try {
-        const { username, email, password, role, _id } = req.body;
-        const { filename } = req.file;
+        const { username, email, password, role, _id, image } = req.body;
+        // const { filename } = req.file;
         const payload = req.body;
         let datas = {
             username: username,
             email: email,
-            image: `http://localhost:8000/images/` + filename,
+            image: image,
             password: password,
             role: role
         }
@@ -120,10 +120,10 @@ export const edit = async (req, res) => {
             message: "Thành công", data
         })
     } catch (error) {
+        console.log(error);
         return res.status(400).json({
             message: "Lỗi rồi"
-          })
-        console.log(error);
+        })
     }
 }
 
@@ -140,7 +140,7 @@ export const editImage = async (req, res) => {
     } catch (error) {
         return res.status(400).json({
             message: "Lỗi rồi"
-          })
+        })
         console.log(error);
     }
 }
@@ -157,7 +157,7 @@ export const remove = async (req, res) => {
     } catch (error) {
         return res.status(400).json({
             message: "Lỗi rồi"
-          })
+        })
         console.log(error)
     }
 }
@@ -174,7 +174,7 @@ export const getAuth = async (req, res) => {
     } catch (error) {
         return res.status(400).json({
             message: "Lỗi rồi"
-          })
+        })
         console.log(error)
     }
 }
