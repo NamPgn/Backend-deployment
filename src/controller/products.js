@@ -27,20 +27,20 @@ export const getOne = async (req, res) => {
 
 export const addProduct = async (req, res) => {
   try {
-    const { name, category, price, linkVideo, seri, copyright, LinkCopyright, descriptions } = req.body;
+    const dataAdd = req.body;
     // const payload=req.body;
     // const { filename } = req.file;
-    const dataAdd = {
-      name: name,
-      category: category,
-      price: price,
-      descriptions: descriptions,
-      // image: `https://test-19k8.onrender.com/product/${filename}`,
-      linkVideo: linkVideo,
-      seri: seri,
-      copyright: copyright,
-      LinkCopyright: LinkCopyright,
-    }
+    // const dataAdd = {
+    //   name: name,
+    //   category: category,
+    //   price: price,
+    //   descriptions: descriptions,
+    //   // image: `https://test-19k8.onrender.com/product/${filename}`,
+    //   linkVideo: linkVideo,
+    //   seri: seri,
+    //   copyright: copyright,
+    //   LinkCopyright: LinkCopyright,
+    // }
     const data = await addPost(dataAdd);
     console.log("data", dataAdd);
     return res.status(200).json(data);
@@ -67,21 +67,21 @@ export const delete_ = async (req, res) => {
 
 export const editProduct = async (req, res) => {
   try {
-    const { name, category, price, _id, image, linkVideo, seri, copyright, LinkCopyright, descriptions } = req.body;
+    const dataEdit = req.body;
     // const { filename } = req.file;
     // const s = req.body;
     // console.log('req.body', s);
-    const dataEdit = {
-      name: name,
-      category: category,
-      price: price,
-      descriptions: descriptions,
-      image: image,
-      linkVideo: linkVideo,
-      seri: seri,
-      copyright: copyright,
-      LinkCopyright: LinkCopyright
-    }
+    // const dataEdit = {
+    //   name: name,
+    //   category: category,
+    //   price: price,
+    //   descriptions: descriptions,
+    //   image: image,
+    //   linkVideo: linkVideo,
+    //   seri: seri,
+    //   copyright: copyright,
+    //   LinkCopyright: LinkCopyright
+    // }
     const data = await editPost(_id, dataEdit);
     console.log("data", _id, data);
     return res.status(200).json(data);
