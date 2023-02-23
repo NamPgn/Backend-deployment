@@ -17,9 +17,8 @@ const productSchema = new Schema({
   price: {
     type: String
   },
-  pending: {
-    type: Boolean,
-    default: false
+  trailer: {
+    type: String,
   },
   linkVideo: {
     type: String

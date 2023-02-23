@@ -67,7 +67,7 @@ export const delete_ = async (req, res) => {
 
 export const editProduct = async (req, res) => {
   try {
-    const { name, category, price, _id, image, linkVideo, seri, copyright, LinkCopyright, descriptions } = req.body;
+    const { name, category, price, _id, image, linkVideo, seri, copyright, LinkCopyright, descriptions, trailer } = req.body;
     // const { filename } = req.file;
     // const s = req.body;
     // console.log('req.body', s);
@@ -80,7 +80,8 @@ export const editProduct = async (req, res) => {
       linkVideo: linkVideo,
       seri: seri,
       copyright: copyright,
-      LinkCopyright: LinkCopyright
+      LinkCopyright: LinkCopyright,
+      trailer: trailer
     }
     const data = await editPost(_id, dataEdit);
     console.log("data", _id, data);
