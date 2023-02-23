@@ -15,9 +15,9 @@ const productSchema = new Schema({
     ref: "Category"
   },
   price: {
-    type: Number
+    type: String
   },
-  select: {
+  pending: {
     type: Boolean,
     default: false
   },
