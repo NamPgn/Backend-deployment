@@ -11,4 +11,5 @@ router.post('/product', uploadProduct, addProduct);
 router.put('/product/:id', uploadProduct, editProduct);
 router.post('/product/creating', uploadStorageProduct.single('xlsxProduct'), uploadXlxsProducts);
 router.post('/product/deleteMultiple', deleteMultipleProduct);
+router.get('/category/products/:id', getAllProductsByCategory)
 export default router;

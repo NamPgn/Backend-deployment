@@ -114,3 +114,14 @@ export const deleteMultipleProduct = async (req, res) => {
 }
 
 ////12324tw7rt87wery8q7weyr78qwer
+
+
+export const getAllProductsByCategory = async (req, res) => {
+  try {
+    const category = req.params.id;
+    const data = await Products.find({ category: category });
+    res.json(data);
+  } catch (error) {
+    console.log(error);
+  }
+}
