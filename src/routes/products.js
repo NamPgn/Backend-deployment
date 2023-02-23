@@ -1,6 +1,6 @@
 import express from 'express';
-import { addProduct, deleteMultipleProduct, delete_, editProduct, getAllProducts, getOne } from '../controller/products'
-import { uploadProduct, uploadStorageProduct, uploadVideoStorage, uploadXlxsProducts } from '../services/upload';
+import { addProduct, deleteMultipleProduct, delete_, editProduct, getAllProducts, getOne, getAllProductsByCategory } from '../controller/products'
+import { uploadProduct, uploadStorageProduct, uploadVideoStorage, uploadXlxsProducts, } from '../services/upload';
 
 const router = express.Router();
 
