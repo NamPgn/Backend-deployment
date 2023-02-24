@@ -7,6 +7,7 @@ import routerProducts from "./src/routes/products"
 import path from "path";
 import routerCategory from "./src/routes/category";
 import routerPostList from "./src/routes/post";
+import routerTrailerHome from "./src/routes/trailerHomePage"
 var bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json({ limit: "500mb" }));
@@ -18,6 +19,7 @@ app.use("/api", routerAuth);
 app.use("/api", routerProducts);
 app.use("/api", routerCategory)
 app.use('/api', routerPostList)
+app.use('/api', routerTrailerHome)
 app.use(express.static(path.resolve('./public')));
 app.get('/', (req, res) => {
     res.send("Đmm");
