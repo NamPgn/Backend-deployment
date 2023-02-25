@@ -23,8 +23,8 @@ export const editTrailerHomePageUrlController = async (req, res) => {
 
 export const getTrailerController = async (req, res) => {
   try {
-    const { _id } = req.params;
-    const data = await getTrailerUrlSevices(_id);
+    const id = req.params.id;
+    const data = await getTrailerUrlSevices(id);
     res.json(data);
   } catch (error) {
     console.log(error);
