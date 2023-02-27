@@ -1,4 +1,4 @@
-import { addUser, getAll, getUser, editUser, deleteUser, getDataUser, editImg } from "../services/auth";
+import { addUser, getAll, getUser, editUser, deleteUser, getDataUser } from "../services/auth";
 import { generateToken } from "../services/requestToken";
 import { comparePassWord, passwordHash } from "../services/security";
 var path = require('path');
@@ -7,7 +7,7 @@ const PORT = process.env.PORT;
 
 export const signup = async (req, res) => {
     try {
-        const { username, email, password, role, image } = req.body;
+        const { username, email, password, image } = req.body;
         // const { filename } = req.file;
         // filename ? filename : "https://taytou.com/wp-content/uploads/2022/08/Tai-anh-dai-dien-cute-de-thuong-hinh-meo-nen-xanh-la.png";
 
@@ -19,23 +19,19 @@ export const signup = async (req, res) => {
                 success: false,
                 message: 'Tài khoản đã tồn tại'
             })
-            return;
         }
         // mã hóa mật khẩu
-        var hashPw = passwordHash(password);
+        const hashPw = passwordHash(password);
         const newUser = {
             username: username,
             email: email,
             password: hashPw,
             image: image,
-            role: role
         }
-        console.log("newUsser", newUser)
         await addUser(newUser)
         return res.status(200).json({
             success: true,
-            message: "Thành công",
-            newUser: [newUser]
+            message: 'Signup success'
         })
     } catch (error) {
         console.log(error);
@@ -77,7 +73,31 @@ export const singin = async (req, res) => {
         }
         console.log("getUserLogin", user)
         const tokenAuth = generateToken(user)
-        console.log("tokenAuth", jwt.sign(user, "nampg"))
+
+
+        //login sendmail request
+        transporter.sendMail({
+            from: process.env.EMAIL, // sender address
+            to: `${email}`, // list of receivers
+            subject: "Hello ✔", // Subject line
+            text: "Nam chào bạn", // plain text body
+            html: "<b>Nam chào bạn</b>", // html body
+        }, (err) => {
+            if (err) {
+                console.log("err", err)
+            } else {
+                console.log("send mail thành công")
+                res.json({
+                    success: true,
+                    message: "Send mail thành công"
+                })
+            }
+        });
+
+
+        //return token auth
+
+
         return res.status(200).json({
             success: true,
             message: 'Thành công',
@@ -127,23 +147,23 @@ export const edit = async (req, res) => {
     }
 }
 
-export const editImage = async (req, res) => {
-    try {
-        const { filename } = req.file;
-        const { id } = req.params;
-        const payload = {
-            image: `http://localhost:8000/images/` + filename,
-        }
-        const data = await editImg(id, payload);
-        console.log("data", data);
-        res.json(data);
-    } catch (error) {
-        return res.status(400).json({
-            message: "Lỗi rồi"
-        })
-        console.log(error);
-    }
-}
+// export const editImage = async (req, res) => {
+//     try {
+//         const { filename } = req.file;
+//         const { id } = req.params;
+//         const payload = {
+//             image: `http://localhost:8000/images/` + filename,
+//         }
+//         const data = await editImg(id, payload);
+//         console.log("data", data);
+//         res.json(data);
+//     } catch (error) {
+//         return res.status(400).json({
+//             message: "Lỗi rồi"
+//         })
+//         console.log(error);
+//     }
+// }
 
 export const remove = async (req, res) => {
     const id = req.params.id;

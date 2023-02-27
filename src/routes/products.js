@@ -1,5 +1,5 @@
 import express from 'express';
-import { addProduct, deleteMultipleProduct, delete_, editProduct, getAllProducts, getOne, getAllProductsByCategory } from '../controller/products'
+import { addProduct, deleteMultipleProduct, delete_, editProduct, getAllProducts, getOne, getAllProductsByCategory,searchProducts } from '../controller/products'
 import { uploadProduct, uploadStorageProduct, uploadVideoStorage, uploadXlxsProducts, } from '../services/upload';
 
 const router = express.Router();
@@ -11,5 +11,6 @@ router.post('/product', uploadProduct, addProduct);
 router.put('/product/:id', uploadProduct, editProduct);
 router.post('/product/creating', uploadStorageProduct.single('xlsxProduct'), uploadXlxsProducts);
 router.post('/product/deleteMultiple', deleteMultipleProduct);
-router.get('/category/products/:id', getAllProductsByCategory)
+router.get('/category/products/:id', getAllProductsByCategory);
+router.get('/products/search', searchProducts);
 export default router;
