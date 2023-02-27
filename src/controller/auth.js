@@ -4,6 +4,7 @@ import { comparePassWord, passwordHash } from "../services/security";
 import NodeMailer from 'nodemailer'
 var path = require('path');
 import jwt from "jsonwebtoken"
+import { sendMail } from "../utills/mailer";
 const PORT = process.env.PORT;
 
 export const signup = async (req, res) => {
@@ -75,36 +76,19 @@ export const singin = async (req, res) => {
         console.log("getUserLogin", user)
         const tokenAuth = generateToken(user)
 
-        let transporter = NodeMailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: process.env.EMAIL, // generated ethereal user
-                pass: process.env.PS, // generated ethereal password
-            },
-        });
+
 
         // send mail with defined transport object
-        transporter.sendMail({
-            from: process.env.EMAIL, // sender address
-            to: `${email}`, // list of receivers
-            subject: "Hello ✔", // Subject line
-            text: "Nam chào bạn", // plain text body
-            html: "<b>Nam chào bạn</b>", // html body
-        }, (err) => {
-            if (err) {
-                res.json({
-                    success: true,
-                    message: "Send mail đéo thành công"
-                })
-                console.log("err", err)
-            } else {
-                console.log("send mail thành công")
-                res.json({
-                    success: true,
-                    message: "Send mail thành công"
-                })
-            }
-        });
+
+
+        const mailOptions = {
+            from: `${process.env.EMAIL}`,
+            to: `${email}`,
+            subject: 'Nam chào bạn',
+            text: 'This is a test email from Node.js'
+        };
+        sendMail(mailOptions);
+        
         res.status(200).json({
             success: true,
             message: 'Thành công',

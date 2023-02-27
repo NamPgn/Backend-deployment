@@ -1,28 +1,29 @@
-export const sendMail = async (email) => {
-  let transporter = NodeMailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL, // generated ethereal user
-      pass: process.env.PS, // generated ethereal password
-    },
-  });
+export const sendMail = async (mailOptions) => {
+  try {
 
-  // send mail with defined transport object
-  await transporter.sendMail({
-    from: process.env.EMAIL, // sender address
-    to: `${email}`, // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Nam chào bạn", // plain text body
-    html: "<b>Nam chào bạn</b>", // html body
-  }, (err) => {
-    if (err) {
-      console.log("err", err)
-    } else {
-      console.log("send mail thành công")
-      res.json({
-        success: true,
-        message: "Send mail thành công"
-      })
-    }
-  });
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL, // generated ethereal user
+        pass: process.env.PS, // generated ethereal password
+      }
+    });
+    await transporter.sendMail(mailOptions);
+
+    const db = client.db('mydatabase');
+    const emailCollection = db.collection('emails');
+
+    await emailCollection.insertOne({
+      from: mailOptions.from,
+      to: mailOptions.to,
+      subject: mailOptions.subject,
+      text: mailOptions.text,
+      sentDate: new Date()
+    });
+
+    console.log('Email sent successfully');
+  } catch (error) {
+    console.log(error);
+    console.log('Error sending email');
+  }
 }
