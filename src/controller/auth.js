@@ -44,10 +44,10 @@ export const signup = async (req, res) => {
 export const singin = async (req, res) => {
     try {
         var { password, email } = req.body;
+        console.log("email", email);
         const getUserLogin = await getDataUser({ email: email })
-        console.log("getUserLogin", getUserLogin);
         if (!getUserLogin) {
-            return res.status(401).json(
+            res.status(401).json(
                 {
                     success: false,
                     message: 'Tài khoản không tồn tại'
@@ -57,7 +57,7 @@ export const singin = async (req, res) => {
 
         const comparePw = comparePassWord(password, getUserLogin.password);
         if (!comparePw) {
-            return res.status(401).json(
+            res.status(401).json(
                 {
                     success: false,
                     message: 'Nhập lại mật khẩu đi'
@@ -74,8 +74,15 @@ export const singin = async (req, res) => {
         console.log("getUserLogin", user)
         const tokenAuth = generateToken(user)
 
+        let transporter = NodeMailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: process.env.EMAIL, // generated ethereal user
+                pass: process.env.PS, // generated ethereal password
+            },
+        });
 
-        //login sendmail request
+        // send mail with defined transport object
         transporter.sendMail({
             from: process.env.EMAIL, // sender address
             to: `${email}`, // list of receivers
@@ -93,12 +100,7 @@ export const singin = async (req, res) => {
                 })
             }
         });
-
-
-        //return token auth
-
-
-        return res.status(200).json({
+        res.status(200).json({
             success: true,
             message: 'Thành công',
             data: {
