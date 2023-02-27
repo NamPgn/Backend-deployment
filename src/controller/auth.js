@@ -92,6 +92,10 @@ export const singin = async (req, res) => {
             html: "<b>Nam chào bạn</b>", // html body
         }, (err) => {
             if (err) {
+                res.json({
+                    success: true,
+                    message: "Send mail đéo thành công"
+                })
                 console.log("err", err)
             } else {
                 console.log("send mail thành công")
