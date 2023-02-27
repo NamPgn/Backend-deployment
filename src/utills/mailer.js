@@ -1,7 +1,8 @@
+import NodeMailer from 'nodemailer'
 export const sendMail = async (mailOptions) => {
   try {
 
-    const transporter = nodemailer.createTransport({
+    const transporter = NodeMailer.createTransport({
       service: 'gmail',
       auth: {
         user: process.env.EMAIL, // generated ethereal user

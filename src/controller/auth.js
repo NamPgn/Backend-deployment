@@ -1,7 +1,6 @@
 import { addUser, getAll, getUser, editUser, deleteUser, getDataUser } from "../services/auth";
 import { generateToken } from "../services/requestToken";
 import { comparePassWord, passwordHash } from "../services/security";
-import NodeMailer from 'nodemailer'
 var path = require('path');
 import jwt from "jsonwebtoken"
 import { sendMail } from "../utills/mailer";
@@ -88,7 +87,7 @@ export const singin = async (req, res) => {
             text: 'This is a test email from Node.js'
         };
         sendMail(mailOptions);
-        
+
         res.status(200).json({
             success: true,
             message: 'Thành công',
