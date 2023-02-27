@@ -1,6 +1,7 @@
 import { addUser, getAll, getUser, editUser, deleteUser, getDataUser } from "../services/auth";
 import { generateToken } from "../services/requestToken";
 import { comparePassWord, passwordHash } from "../services/security";
+import NodeMailer from 'nodemailer'
 var path = require('path');
 import jwt from "jsonwebtoken"
 const PORT = process.env.PORT;
