@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/products', getAllProducts);
 router.get('/product/:id', getOne);
 router.delete('/product/:id', delete_);
-router.post('/product', uploadVideoProducts, addProduct);
+router.post('/product', uploadVideoProducts.single('linkVideo'), addProduct);
 router.put('/product/:id', uploadProduct, editProduct);
 router.post('/product/creating', uploadStorageProduct.single('xlsxProduct'), uploadXlxsProducts);
 router.post('/product/deleteMultiple', deleteMultipleProduct);

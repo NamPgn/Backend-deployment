@@ -99,6 +99,4 @@ const storageVideosProducts = multer.diskStorage({
   },
 });
 
-export const uploadVideoProducts = multer({
-  storage: storageVideosProducts,
-}).single('linkVideo');
+export const uploadVideoProducts = multer({ storage: storageVideosProducts });
