@@ -1,7 +1,7 @@
 import multer from "multer";
 import User from "../module/auth";
 import Product from "../module/products";
-import { storage, storageProductImage, storageVideoUpload, storageXlxs, storageXlxsProduct } from "../storage/storage";
+import { storage, storageProductImage, storageXlxs, storageXlxsProduct } from "../storage/storage";
 var XLSX = require("xlsx");
 
 
@@ -90,7 +90,15 @@ export const uploadStorageProduct = multer({ storage: storageXlxsProduct });
 //video - upload
 
 
+const storageVideosProducts = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/video-upload');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
 
-export const uploadVideoStorage = multer({
-  storage: storageVideoUpload,
+export const uploadVideoProducts = multer({
+  storage: storageVideosProducts,
 }).single('linkVideo');
