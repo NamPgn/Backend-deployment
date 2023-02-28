@@ -27,20 +27,20 @@ export const getOne = async (req, res) => {
 
 export const addProduct = async (req, res) => {
   try {
-    const dataAdd = req.body;
-    // const payload=req.body;
-    // const { filename } = req.file;
-    // const dataAdd = {
-    //   name: name,
-    //   category: category,
-    //   price: price,
-    //   descriptions: descriptions,
-    //   // image: `https://test-19k8.onrender.com/product/${filename}`,
-    //   linkVideo: linkVideo,
-    //   seri: seri,
-    //   copyright: copyright,
-    //   LinkCopyright: LinkCopyright,
-    // }
+    const { name, category, price, image, seri, copyright, LinkCopyright, descriptions, trailer } = req.body;
+    const { originalname } = req.file;
+    const dataAdd = {
+      name: name,
+      category: category,
+      price: price,
+      descriptions: descriptions,
+      image: image,
+      linkVideo: `${process.env.BACKEND_DEPLOYMENT}/video-upload/` + originalname,
+      seri: seri,
+      copyright: copyright,
+      LinkCopyright: LinkCopyright,
+      trailer: trailer
+    }
     const data = await addPost(dataAdd);
     console.log("data", dataAdd);
     return res.status(200).json(data);
