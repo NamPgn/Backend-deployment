@@ -27,28 +27,27 @@ export const getOne = async (req, res) => {
 
 export const addProduct = async (req, res) => {
   try {
-    const { name, category, price, image, seri, copyright, LinkCopyright, descriptions, trailer } = req.body;
+    const { name, category, price, seri, copyright, LinkCopyright, descriptions } = req.body;
+    const payload = req.file;
     const { originalname } = req.file;
+
     const dataAdd = {
       name: name,
       category: category,
       price: price,
       descriptions: descriptions,
-      image: image,
-      linkVideo: `${process.env.BACKEND_DEPLOYMENT}/video-upload/` + originalname,
+      // image: `${process.env.BACKEND_DEPLOYMENT}/product` + filename,
+      linkVideo: 'http://localhost:8080/video-upload/' + originalname,
       seri: seri,
       copyright: copyright,
       LinkCopyright: LinkCopyright,
-      trailer: trailer
     }
     const data = await addPost(dataAdd);
-    console.log("data", dataAdd);
-    return res.status(200).json(data);
+    console.log("data", dataAdd, "path: " + originalname);
+    res.status(200).json(data);
   } catch (error) {
-    console.log(error);
-    return res.status(400).json({
-      message: "Không thêm đc Product"
-    })
+    console.log(error)
+
   }
 }
 
