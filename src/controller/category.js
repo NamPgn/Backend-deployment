@@ -8,7 +8,7 @@ export const getAll = async (req, res) => {
     res.json(data);
   } catch (error) {
     res.status(400).json({
-      message: "Lỗi rồi"
+      message: "Lỗi rồi",
     })
   }
 }
