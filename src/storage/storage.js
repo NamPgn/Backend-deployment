@@ -46,7 +46,7 @@ export const storageXlxsProduct = multer.diskStorage({
 
 //video-upload storage
 
-export const storageVideoUpload = multer.diskStorage({
+export const storageVideoUpload = multer.diskStorage({ //upload video to local
   destination: function (req, file, cb) {
     cb(null, 'public/video-upload/')
   },
@@ -54,3 +54,9 @@ export const storageVideoUpload = multer.diskStorage({
     cb(null, file.originalname)
   }
 });
+
+
+//video upload to server storage
+
+
+

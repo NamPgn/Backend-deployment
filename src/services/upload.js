@@ -99,4 +99,14 @@ const storageVideosProducts = multer.diskStorage({
   },
 });
 
-export const uploadVideoProducts = multer({ storage: storageVideosProducts });
+export const uploadVideoProducts = multer({ storage: storageVideosProducts }); //upload video to local 
+
+
+
+ 
+export const uploadVideoFireBase = multer({ // upload video to firebase
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 10000000 * 1024 * 1024 // Giới hạn tải lên là 10 MB
+  }
+});

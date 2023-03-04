@@ -8,6 +8,10 @@ import path from "path";
 import routerCategory from "./src/routes/category";
 import routerPostList from "./src/routes/post";
 import routerTrailer from "./src/routes/trailerHomePage"
+import admin from 'firebase-admin';
+import serviceAccount from './public/path/mystorage-265d8-firebase-adminsdk-4jj90-9c56ceaf71.json'
+
+
 var bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json({ limit: "500mb" }));
@@ -31,6 +35,11 @@ try {
 } catch (error) {
     console.log("lỗi rồi")
 }
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: process.env.STORAGE_BUCKET
+})
 
 app.listen(port, () => {
     console.log(`Server is running on: http://localhost:${port}`);

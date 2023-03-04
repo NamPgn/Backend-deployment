@@ -15,15 +15,19 @@ const productSchema = new Schema({
     ref: "Category"
   },
   price: {
-    type: String
+    type: Number
   },
-  trailer: {
-    type: String,
+  select: {
+    type: Boolean,
+    default: false
   },
-  linkVideo: {
-    type: String
+  uploadDate: {
+    type: Date,
   },
   seri: {
+    type: String
+  },
+  link: {
     type: String
   },
   copyright: {
@@ -31,7 +35,7 @@ const productSchema = new Schema({
   },
   LinkCopyright: {
     type: String
-  }
+  },
 }, { timestamps: true });
 
 export default mongoose.model("Products", productSchema);
