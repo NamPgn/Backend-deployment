@@ -18,7 +18,7 @@ router.get('/products', getAllProducts);
 router.get('/product/:id', getOne);
 router.delete('/product/:id', delete_);
 router.post('/product', uploadVideoFireBase.single('file'), addProduct);
-router.put('/product/:id', uploadProduct, editProduct);
+router.put('/product/:id', editProduct);
 router.post('/product/creating', uploadStorageProduct.single('xlsxProduct'), uploadXlxsProducts);
 router.post('/product/deleteMultiple', deleteMultipleProduct);
 router.get('/category/products/:id', getAllProductsByCategory);
