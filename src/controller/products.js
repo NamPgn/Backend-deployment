@@ -118,15 +118,15 @@ export const delete_ = async (req, res) => {
 
 export const editProduct = async (req, res) => {
   try {
-    const { name, category, price, _id, image, seri, copyright, LinkCopyright, descriptions, trailer } = req.body;
-    const { originalname } = req.file;
+    const { name, category, price, _id, link, image, seri, copyright, LinkCopyright, descriptions, trailer } = req.body;
+    // const { originalname } = req.file;
     const dataEdit = {
       name: name,
       category: category,
       price: price,
       descriptions: descriptions,
       image: image,
-      linkVideo: `${process.env.BACKEND_DEPLOYMENT}/video-upload/` + originalname,
+      link: link,
       seri: seri,
       copyright: copyright,
       LinkCopyright: LinkCopyright,
