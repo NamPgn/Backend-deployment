@@ -11,16 +11,16 @@ export const sendMail = async (mailOptions) => {
     });
     await transporter.sendMail(mailOptions);
 
-    const db = client.db('mydatabase');
-    const emailCollection = db.collection('emails');
+    // const db = client.db('mydatabase');
+    // const emailCollection = db.collection('emails');
 
-    await emailCollection.insertOne({
-      from: mailOptions.from,
-      to: mailOptions.to,
-      subject: mailOptions.subject,
-      text: mailOptions.text,
-      sentDate: new Date()
-    });
+    // await emailCollection.insertOne({
+    //   from: mailOptions.from,
+    //   to: mailOptions.to,
+    //   subject: mailOptions.subject,
+    //   text: mailOptions.text,
+    //   sentDate: new Date()
+    // });
 
     console.log('Email sent successfully');
   } catch (error) {
