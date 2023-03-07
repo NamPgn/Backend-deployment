@@ -5,6 +5,7 @@ export const sendMail = async (mailOptions) => {
     const transporter = NodeMailer.createTransport({
       service: 'gmail',
       auth: {
+        type: "OAuth2",
         user: process.env.EMAIL, // generated ethereal user
         pass: process.env.PS, // generated ethereal password
       }

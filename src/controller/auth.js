@@ -91,10 +91,7 @@ export const singin = async (req, res) => {
         res.status(200).json({
             success: true,
             message: 'Thành công',
-            data: {
-                user,
-                token: tokenAuth
-            }
+            token: tokenAuth
         })
     } catch (error) {
         res.status(400).json({
