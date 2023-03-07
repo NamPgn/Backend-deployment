@@ -45,7 +45,6 @@ export const signup = async (req, res) => {
 export const singin = async (req, res) => {
     try {
         var { password, email } = req.body;
-        console.log("email", email);
         const getUserLogin = await getDataUser({ email: email })
         if (!getUserLogin) {
             res.status(401).json(
@@ -72,7 +71,6 @@ export const singin = async (req, res) => {
             role: getUserLogin.role,
             image: getUserLogin.image
         }
-        console.log("getUserLogin", user)
         const tokenAuth = generateToken(user)
 
 
@@ -80,13 +78,13 @@ export const singin = async (req, res) => {
         // send mail with defined transport object
 
 
-        const mailOptions = {
-            from: `${process.env.EMAIL}`,
-            to: `${email}`,
-            subject: 'Nam chào bạn',
-            text: 'This is a test email from Node.js'
-        };
-        sendMail(mailOptions);
+        // const mailOptions = {
+        //     from: `${process.env.EMAIL}`,
+        //     to: `${email}`,
+        //     subject: 'Nam chào bạn',
+        //     text: 'This is a test email from Node.js'
+        // };
+        // sendMail(mailOptions);
 
         res.status(200).json({
             success: true,
