@@ -1,7 +1,7 @@
 import { getAll, get, addPost, deleteProduct, editPost } from "../services/products"
 import Products from "../module/products";
 import admin from 'firebase-admin';
-
+import Category from '../module/category'
 
 export const getAllProducts = async (req, res) => {
   try {
@@ -176,15 +176,3 @@ export const getAllProductsByCategory = async (req, res) => {
   }
 }
 
-export const searchCategory = async (req, res) => {
-  try {
-    var searchValue = req.query.value;
-    var regex = new RegExp(searchValue, 'i');
-    const data = await Category.find({
-      $or: [{ name: regex }]
-    })
-    res.json(data);
-  } catch (error) {
-    console.log(error);
-  }
-}
