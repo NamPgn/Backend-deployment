@@ -3,7 +3,7 @@ import {
   addProduct, deleteMultipleProduct, delete_,
   editProduct, getAllProducts, getOne,
   getAllProductsByCategory,
-  searchProducts
+  searchCategory
 } from '../controller/products'
 import {
   uploadProduct, uploadStorageProduct,
@@ -22,5 +22,5 @@ router.put('/product/:id', editProduct);
 router.post('/product/creating', uploadStorageProduct.single('xlsxProduct'), uploadXlxsProducts);
 router.post('/product/deleteMultiple', deleteMultipleProduct);
 router.get('/category/products/:id', getAllProductsByCategory);
-router.get('/products/search', searchProducts);
+router.get('/products/search', searchCategory);
 export default router;

@@ -176,11 +176,11 @@ export const getAllProductsByCategory = async (req, res) => {
   }
 }
 
-export const searchProducts = async (req, res) => {
+export const searchCategory = async (req, res) => {
   try {
     var searchValue = req.query.value;
     var regex = new RegExp(searchValue, 'i');
-    const data = await Products.find({
+    const data = await Category.find({
       $or: [{ name: regex }]
     })
     res.json(data);
