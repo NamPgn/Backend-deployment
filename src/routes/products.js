@@ -4,6 +4,7 @@ import {
   addProduct, deleteMultipleProduct, delete_,
   editProduct, getAllProducts, getOne,
   getAllProductsByCategory,
+  findCommentByIdProduct,
 } from '../controller/products'
 import {
   uploadProduct, uploadStorageProduct,
@@ -24,5 +25,5 @@ router.post('/product/deleteMultiple', deleteMultipleProduct);
 router.get('/category/products/:id', getAllProductsByCategory);
 
 router.get('/products/search', searchCategory);
-
+router.get('/product/comments/:id', findCommentByIdProduct)
 export default router;

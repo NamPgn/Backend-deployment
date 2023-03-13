@@ -8,6 +8,7 @@ import path from "path";
 import routerCategory from "./src/routes/category";
 import routerPostList from "./src/routes/post";
 import routerTrailer from "./src/routes/trailerHomePage"
+import routerComments from "./src/routes/comment";
 import admin from 'firebase-admin';
 import serviceAccount from './public/path/mystorage-265d8-firebase-adminsdk-4jj90-9c56ceaf71.json'
 
@@ -24,13 +25,14 @@ app.use("/api", routerProducts);
 app.use("/api", routerCategory)
 app.use('/api', routerPostList)
 app.use('/api', routerTrailer)
+app.use('/api', routerComments);
 app.use(express.static(path.resolve('./public')));
 app.get('/', (req, res) => {
     res.send("Đmm");
 })
 
 try {
-    mongoose.connect(`${process.env.URI}/React-toolkit-js`);
+    mongoose.connect(`${process.env.URI}`);
     console.log("Kết nôt mongodb thành công")
 } catch (error) {
     console.log("lỗi rồi")

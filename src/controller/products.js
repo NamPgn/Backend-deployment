@@ -19,14 +19,15 @@ export const getAllProducts = async (req, res) => {
 export const getOne = async (req, res) => {
   try {
     const _id = { _id: req.params.id };
-    const data = await get(_id);
-    return res.status(200).json(data);
+    const data = await Products.findById(_id).populate('comments.user', 'username image');
+    res.json(data);
   } catch (error) {
     console.log(error)
-    return res.send("Không tìm thấy movie " + _id)
+    return res.status(400).json({
+      message: "Không ìm thấy bài viết"
+    })
   }
 }
-
 
 const bucketName = process.env.BUCKET_NAME;
 
@@ -176,3 +177,16 @@ export const getAllProductsByCategory = async (req, res) => {
   }
 }
 
+export const findCommentByIdProduct = async (req, res) => {
+  try {
+    const _id = { _id: req.params.id };
+    console.log("_id", _id);
+    const data = await Products.findById(_id).populate('comments.user', 'username image');
+    res.json(data);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      message: error
+    })
+  }
+}

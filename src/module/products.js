@@ -36,6 +36,13 @@ const productSchema = new Schema({
   LinkCopyright: {
     type: String
   },
+  comments: [
+    {
+      commentContent: { type: String },
+      user: { type: ObjectId, ref: 'User' },
+      date: { type: Date, default: Date.now() }
+    }
+  ]
 }, { timestamps: true });
 
 export default mongoose.model("Products", productSchema);
