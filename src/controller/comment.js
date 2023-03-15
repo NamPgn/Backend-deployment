@@ -4,7 +4,7 @@ import Auth from "../module/auth";
 import mongoose from "mongoose";
 export const getAllCommentsControllers = async (req, res) => {
   try {
-    const data = await Comments.find()
+    const data = await Comments.find().populate('user', 'username role image' ).populate('product', 'name seri');
     res.json(data);
   } catch (error) {
     console.log(error);
@@ -54,6 +54,35 @@ export const addCommentController = async (req, res) => {
     })
     const data = await new Comments(dataAdd).save();
     res.json(data);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      message: error
+    })
+  }
+}
+
+
+export const deleteComment = async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const data = await Comments.findOneAndDelete({ '_id': _id });
+    res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      message: error
+    })
+  }
+}
+
+
+export const updateComment = async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const dataud = req.body
+    const data = await Comments.findByIdAndUpdate(_id, dataud)
+    res.status(200).json(data);
   } catch (error) {
     console.log(error);
     return res.status(400).json({

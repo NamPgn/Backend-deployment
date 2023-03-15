@@ -8,10 +8,10 @@ const CommentSchema = new Schema({
     type: ObjectId,
     ref: "User"
   },
-  // product: {
-  //   type: ObjectId,
-  //   ref: "Products"
-  // },
+  product: {
+    type: ObjectId,
+    ref: "Products"
+  },
 
 }, { timestamps: true });
 
