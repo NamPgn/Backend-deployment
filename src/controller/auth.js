@@ -48,7 +48,7 @@ export const singin = async (req, res) => {
         const { password, username } = req.body;
         const getUserLogin = await getDataUser({ username: username })
         if (!getUserLogin) {
-            res.status(401).json(
+           return res.status(401).json(
                 {
                     success: false,
                     message: 'Tài khoản không tồn tại'
@@ -58,7 +58,7 @@ export const singin = async (req, res) => {
 
         const comparePw = comparePassWord(password, getUserLogin.password);
         if (!comparePw) {
-            res.status(401).json(
+           return res.status(401).json(
                 {
                     success: false,
                     message: 'Nhập lại mật khẩu đi'
@@ -85,7 +85,7 @@ export const singin = async (req, res) => {
         // };
         // sendMail(mailOptions);
 
-        res.status(200).json({
+       return res.status(200).json({
             success: true,
             message: 'Thành công',
             token: tokenAuth

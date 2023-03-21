@@ -2,7 +2,7 @@ import { expressjwt } from 'express-jwt';
 
 export const requiredSignin = expressjwt({
   algorithms: ["HS256"],
-  secret: 'nampg',
+  secret: "nampg",
   requestProperty: "auth"
 });
 
