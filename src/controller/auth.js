@@ -9,7 +9,7 @@ const PORT = process.env.PORT;
 
 export const signup = async (req, res) => {
     try {
-        const { username, email, password, image } = req.body;
+        const { username, email, password, role, image } = req.body;
         // const { filename } = req.file;
         // filename ? filename : "https://taytou.com/wp-content/uploads/2022/08/Tai-anh-dai-dien-cute-de-thuong-hinh-meo-nen-xanh-la.png";
 
@@ -21,19 +21,24 @@ export const signup = async (req, res) => {
                 success: false,
                 message: 'Tài khoản đã tồn tại'
             })
+            return;
         }
         // mã hóa mật khẩu
-        const hashPw = passwordHash(password);
+        var hashPw = passwordHash(password);
         const newUser = {
             username: username,
             // email: email,
             password: hashPw,
             // image: image,
+            // image: `http://localhost:${process.env.PORT}/images/` + filename,
+            role: role
         }
+        console.log("newUsser", newUser)
         await addUser(newUser)
         return res.status(200).json({
             success: true,
-            message: 'Signup success'
+            message: "Thành công",
+            newUser: [newUser]
         })
     } catch (error) {
         console.log(error);
@@ -48,7 +53,7 @@ export const singin = async (req, res) => {
         const { password, username } = req.body;
         const getUserLogin = await getDataUser({ username: username })
         if (!getUserLogin) {
-           return res.status(401).json(
+            return res.status(401).json(
                 {
                     success: false,
                     message: 'Tài khoản không tồn tại'
@@ -58,7 +63,7 @@ export const singin = async (req, res) => {
 
         const comparePw = comparePassWord(password, getUserLogin.password);
         if (!comparePw) {
-           return res.status(401).json(
+            return res.status(401).json(
                 {
                     success: false,
                     message: 'Nhập lại mật khẩu đi'
@@ -85,7 +90,7 @@ export const singin = async (req, res) => {
         // };
         // sendMail(mailOptions);
 
-       return res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: 'Thành công',
             token: tokenAuth
