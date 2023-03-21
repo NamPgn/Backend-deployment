@@ -4,12 +4,12 @@ const authSchema = mongoose.Schema({
     username: {
         type: String
     },
-    email: {
-        type: String
-    },
-    image: {
-        type: String
-    },
+    // email: {
+    //     type: String
+    // },
+    // image: {
+    //     type: String
+    // },
     password: {
         type: String
     },

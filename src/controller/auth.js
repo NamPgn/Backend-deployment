@@ -4,6 +4,7 @@ import { comparePassWord, passwordHash } from "../services/security";
 var path = require('path');
 import jwt from "jsonwebtoken"
 import { sendMail } from "../utills/mailer";
+import Auth from "../module/auth";
 const PORT = process.env.PORT;
 
 export const signup = async (req, res) => {
@@ -14,7 +15,7 @@ export const signup = async (req, res) => {
 
         // console.log("req.file", filename)
 
-        const getuser = await getDataUser({ email: email }); //tìm lấy ra cái thằng email
+        const getuser = await getDataUser({ username: username }); //tìm lấy ra cái thằng email
         if (getuser) { //kiểm tra nếu mà nó email đã tồn tại thì trả về cái lỗi
             res.status(401).json({
                 success: false,
@@ -25,9 +26,9 @@ export const signup = async (req, res) => {
         const hashPw = passwordHash(password);
         const newUser = {
             username: username,
-            email: email,
+            // email: email,
             password: hashPw,
-            image: image,
+            // image: image,
         }
         await addUser(newUser)
         return res.status(200).json({
@@ -44,8 +45,8 @@ export const signup = async (req, res) => {
 
 export const singin = async (req, res) => {
     try {
-        var { password, email } = req.body;
-        const getUserLogin = await getDataUser({ email: email })
+        const { password, username } = req.body;
+        const getUserLogin = await getDataUser({ username: username })
         if (!getUserLogin) {
             res.status(401).json(
                 {
@@ -67,13 +68,11 @@ export const singin = async (req, res) => {
         const user = {
             _id: getUserLogin._id,
             username: getUserLogin.username,
-            email: getUserLogin.email,
+            // email: getUserLogin.email,
             role: getUserLogin.role,
-            image: getUserLogin.image
+            // image: getUserLogin.image
         }
         const tokenAuth = generateToken(user)
-
-
 
         // send mail with defined transport object
 
@@ -160,68 +159,30 @@ export const remove = async (req, res) => {
 
         })
     } catch (error) {
+        console.log(error)
         return res.status(400).json({
             message: "Lỗi rồi"
         })
-        console.log(error)
     }
 }
 
-export const getAuth = async (req, res) => {
+export const getAuth = async (req, res, next, id) => {
     try {
-        const id = req.params.id;
-        const data = await getUser(id);
-        res.status(200).json({
-            message: "Thành công",
-            data
-        })
-        // console.log(await getUser(id))
+        const user = await Auth.findById(id).exec();
+        if (!user) {
+            res.status(400).json({
+                message: "Khong tim thay user"
+            })
+        }
+        req.profile = user
+        req.profile.password = undefined;
+        next();
     } catch (error) {
-        return res.status(400).json({
-            message: "Lỗi rồi"
-        })
         console.log(error)
     }
 }
 
-// export const addUser = async (req, res) => {
-//     try {
-//         var { username, email, password, role } = req.body;
-//         const { filename } = req.file;
-//         filename ? filename : "https://taytou.com/wp-content/uploads/2022/08/Tai-anh-dai-dien-cute-de-thuong-hinh-meo-nen-xanh-la.png";
 
-//         // console.log("req.file", filename)
-
-//         const getuser = await getDataUser({ email: email }); //tìm lấy ra cái thằng email
-//         if (getuser) { //kiểm tra nếu mà nó email đã tồn tại thì trả về cái lỗi
-//             res.status(401).json({
-//                 success: false,
-//                 message: 'Tài khoản đã tồn tại'
-//             })
-//         }
-//         // mã hóa mật khẩu
-//         var hashPw = passwordHash(password);
-//         const newUser = {
-//             username: username,
-//             email: email,
-//             password: hashPw,
-//             image: `http://localhost:8000/images/` + filename,
-//             role: role
-//         }
-//         console.log("newUsser", newUser)
-//         await addUser(newUser)
-//         return res.status(200).json({
-//             success: true,
-//             message: "Thành công",
-//             newUser: [newUser]
-//         })
-//     } catch (error) {
-//         console.log(error);
-//         res.json({
-//             message: "Không đăg kí dđược "
-//         })
-//     }
-// }
 
 export const commented = async (req, res) => {
     try {

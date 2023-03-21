@@ -2,6 +2,7 @@ import Comments from "../module/comments"
 import Products from "../module/products";
 import Auth from "../module/auth";
 import mongoose from "mongoose";
+
 export const getAllCommentsControllers = async (req, res) => {
   try {
     const data = await Comments.find().populate('user', 'username role image' ).populate('product', 'name seri');
@@ -77,7 +78,7 @@ export const deleteComment = async (req, res) => {
 }
 
 
-export const updateComment = async (req, res) => {
+export const updateCommentController = async (req, res) => {
   try {
     const _id = req.params.id;
     const dataud = req.body

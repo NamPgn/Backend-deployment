@@ -1,20 +1,27 @@
-import expressJwt from "express-jwt";
+import { expressjwt } from 'express-jwt';
 
-export const requiredSignin=expressJwt({
-  algorithms:["HS256"],
-  secret:"123",
-  requestProperty:"auth"
-})
+export const requiredSignin = expressjwt({
+  algorithms: ["HS256"],
+  secret: process.env.MK,
+  requestProperty: "auth"
+});
 
 
-export const checkAuth=(req,res,next)=>{
-  const isAdmin=true;
-  if(isAdmin){
-    next();
-  }else{
-    res.status(400).json({
-      message:"Bạn không phải Admin"
+export const isAuth = (req, res, next) => {
+  const status = req.profile._id == req.auth._id;
+  if (!status) {
+    res.status(401).json({
+      message: "Ban khong co quyen truy cap"
     })
   }
+  next();
 }
 
+export const isAdmin = (req, res, next) => {
+  if (req.auth.role == 0) {
+    res.status(401).json({
+      message: "Ban khong phai la admin...cuts"
+    })
+  }
+  next();
+}
