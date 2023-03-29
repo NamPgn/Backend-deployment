@@ -199,3 +199,14 @@ export const commented = async (req, res) => {
         console.log(error);
     }
 }
+
+
+export const findCartByUser = async (req, res) => {
+    try {
+        const _id = req.params.id;
+        const data = await Auth.findById(_id).populate('cart.product', 'name seri image category');
+        return res.status(200).json(data);
+    } catch (error) {
+        return res.status(400).json({ error: error });
+    }
+}

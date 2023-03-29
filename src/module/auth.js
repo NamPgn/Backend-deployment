@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-
+import mongoose from "mongoose";
+const { ObjectId } = mongoose.Types;
 const authSchema = mongoose.Schema({
     username: {
         type: String
@@ -13,6 +13,12 @@ const authSchema = mongoose.Schema({
     password: {
         type: String
     },
+    cart: [
+        {
+            product: { type: ObjectId, ref: "Products" },
+            date: { type: Date, default: Date.now() }
+        }
+    ],
     role: {
         type: Number,
         default: 0
