@@ -25,3 +25,14 @@ export const createCartController = async (req, res) => {
     res.status(400).json({ error: error });
   }
 }
+
+export const deleteCartController = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await Cart.findByIdAndDelete(id);
+    return res.status(200).json(data);
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({ error: error });
+  }
+}
