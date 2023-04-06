@@ -26,13 +26,20 @@ export const createCartController = async (req, res) => {
   }
 }
 
+
 export const deleteCartController = async (req, res) => {
   try {
-    const id = req.params.id;
-    const data = await Cart.findByIdAndDelete(id);
-    return res.status(200).json(data);
+    const product = req.params.id; //id thằng cart
+    const userId = req.body.userId; //user id th user
+    await Cart.findOneAndDelete({ 'product': product });
+    const s = await Auth.findByIdAndUpdate(userId, { //tìm thằng user
+      $pull: { cart: { product: product } },
+    })
+    return res.status(200).json({
+      data: s,
+      message: 'Delete thành công!'
+    });
   } catch (error) {
-    console.log(error)
-    res.status(400).json({ error: error });
+    res.status(400).json({ error: error.message });
   }
 }

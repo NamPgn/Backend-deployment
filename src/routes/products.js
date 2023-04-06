@@ -24,9 +24,7 @@ router.put('/product/:id:/:userId', requiredSignin, isAuth, isAdmin, editProduct
 router.post('/product/creating:/userId', requiredSignin, isAuth, isAdmin, uploadStorageProduct.single('xlsxProduct'), uploadXlxsProducts);
 router.post('/product/deleteMultiple:/userId', requiredSignin, isAuth, isAdmin, deleteMultipleProduct);
 router.get('/category/products/:id', getAllProductsByCategory);
-
 router.get('/products/search', searchCategory);
 router.get('/product/comments/:id', findCommentByIdProduct);
-
 router.param('userId', getAuth)
 export default router;
