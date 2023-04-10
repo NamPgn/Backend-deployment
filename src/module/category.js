@@ -12,6 +12,14 @@ const categorySchema = new mongoose.Schema({
   },
   sumSeri: {
     type: String
+  },
+  products: [
+    {
+      type: mongoose.Types.ObjectId, ref: 'Products'
+    }
+  ],
+  type: {
+    type: String
   }
 }, { timestamps: true });
 

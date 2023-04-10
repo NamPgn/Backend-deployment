@@ -5,7 +5,7 @@ export const getAllCategory = async () => {
 }
 
 export const getCategory = async (id) => {
-  return await Category.findOne({'_id':id});
+  return await Category.findOne({'_id':id}).populate('products');
 }
 
 export const addCategory = async (data) => {

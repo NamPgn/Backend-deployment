@@ -19,7 +19,7 @@ export const getAllProducts = async (req, res) => {
 export const getOne = async (req, res) => {
   try {
     const _id = { _id: req.params.id };
-    const data = await Products.findById(_id).populate('comments.user', 'username image');
+    const data = await Products.findById(_id).populate('comments.user', 'username image').populate('category');
     res.json(data);
   } catch (error) {
     console.log(error)
@@ -82,7 +82,9 @@ export const addProduct = async (req, res) => {
         LinkCopyright: LinkCopyright,
       }
       const data = await addPost(dataAdd);
-
+      await Category.findByIdAndUpdate(data.category, {
+        $addToSet: { products: data._id }
+      })
       console.log("data", dataAdd);
       res.json(data);
     });
