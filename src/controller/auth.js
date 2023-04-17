@@ -91,9 +91,12 @@ export const singin = async (req, res) => {
         // sendMail(mailOptions);
 
         return res.status(200).json({
+            code: 200,
             success: true,
             message: 'Thành công',
-            token: tokenAuth
+            token: tokenAuth,
+            message: "Đăng nhập thành công!",
+            user:user
         })
     } catch (error) {
         res.status(400).json({
