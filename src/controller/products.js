@@ -97,7 +97,6 @@ export const addProduct = async (req, res) => {
     // Ghi dữ liệu video vào stream
     stream.end(video.buffer);
   } catch (error) {
-    console.log(error)
     res.status(500).json({
       success: false,
       message: 'Error uploading video',
@@ -114,7 +113,7 @@ export const delete_ = async (req, res) => {
     return res.status(200).json(data);
   } catch (error) {
     return res.status(400).json({
-      message: "Lỗi rồi"
+      message: error.message
     })
   }
 }
@@ -139,9 +138,8 @@ export const editProduct = async (req, res) => {
     console.log("data", _id, data);
     return res.status(200).json(data);
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
-      message: error
+      message: error.message
     })
   }
 }
@@ -161,7 +159,7 @@ export const deleteMultipleProduct = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: "Lỗi rồi"
+      message: error.message
     })
   }
 }
@@ -175,7 +173,9 @@ export const getAllProductsByCategory = async (req, res) => {
     const data = await Products.find({ category: category });
     res.json(data);
   } catch (error) {
-    console.log(error);
+    return res.status(400).json({
+      message: error.message
+    })
   }
 }
 
@@ -186,9 +186,8 @@ export const findCommentByIdProduct = async (req, res) => {
     const data = await Products.findById(_id).populate('comments.user', 'username image');
     res.json(data);
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
-      message: error
+      message: error.message
     })
   }
 }

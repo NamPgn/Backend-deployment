@@ -7,8 +7,8 @@ export const getAll = async (req, res) => {
     const data = await getAllCategory();
     res.json(data);
   } catch (error) {
-    res.status(400).json({
-      message: "Lỗi rồi",
+    return res.status(400).json({
+      message: error.message
     })
   }
 }
@@ -19,9 +19,8 @@ export const getOne = async (req, res) => {
     const data = await getCategory(id);
     res.json(data)
   } catch (error) {
-    console.log(error);
-    res.status(400).json({
-      message: "Lỗi rồi"
+    return res.status(400).json({
+      message: error.message
     })
   }
 }
@@ -31,8 +30,8 @@ export const readProductByCategory = async (req, res) => {
     const data = await Products.find().populate('category', 'name');
     res.json(data);
   } catch (error) {
-    res.status(400).json({
-      message: "Lỗi rồi"
+    return res.status(400).json({
+      message: error.message
     })
   }
 }
@@ -45,8 +44,8 @@ export const addCt = async (req, res) => {
 
     res.json(cate)
   } catch (error) {
-    res.status(400).json({
-      message: "Lỗi rồi"
+    return res.status(400).json({
+      message: error.message
     })
   }
 }
@@ -59,8 +58,8 @@ export const updateCate = async (req, res) => {
     console.log("data", dataEdit);
     res.json(dataEdit);
   } catch (error) {
-    res.status(400).json({
-      message: "Lỗi rồi"
+    return res.status(400).json({
+      message: error.message
     })
   }
 }
@@ -72,9 +71,8 @@ export const deleteCategoryController = async (req, res) => {
     res.json(data);
   } catch (error) {
     return res.status(400).json({
-      message: "Lỗi rồi"
+      message: error.message
     })
-    console.log(error);
   }
 }
 export const getAllCategoryNotReq = async (req, res) => {
@@ -84,9 +82,8 @@ export const getAllCategoryNotReq = async (req, res) => {
     res.json(data);
   } catch (error) {
     return res.status(400).json({
-      message: "Lỗi rồi"
+      message: error.message
     })
-    console.log(error);
   }
 }
 
@@ -101,8 +98,8 @@ export const searchCategory = async (req, res) => {
     console.log(data)
     res.json(data);
   } catch (error) {
-    res.status(404).json({
-      message: error
-    });
+    return res.status(400).json({
+      message: error.message
+    })
   }
 }
