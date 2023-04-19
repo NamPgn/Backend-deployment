@@ -11,6 +11,8 @@ import routerTrailer from "./src/routes/trailerHomePage"
 import routerComments from "./src/routes/comment";
 import admin from 'firebase-admin';
 import routerCart from "./src/routes/cart.js";
+import routerTypes from "./src/routes/types.js";
+import routerCategorymain from "./src/routes/categotymain/categorymain.js";
 import serviceAccount from './public/path/mystorage-265d8-firebase-adminsdk-4jj90-9c56ceaf71.json'
 
 
@@ -28,6 +30,8 @@ app.use('/api', routerPostList)
 app.use('/api', routerTrailer)
 app.use('/api', routerComments);
 app.use('/api', routerCart);
+app.use('/api', routerTypes)
+app.use('/api', routerCategorymain)
 app.use(express.static(path.resolve('./public')));
 app.get('/', (req, res) => {
     res.send("Đmm");
