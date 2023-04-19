@@ -1,5 +1,5 @@
 import express from "express";
-import { CreateType, DeleteType, GetAllTypeCategorys, GetOneTypeCategory, UpdatedType } from "../controller/categorys/Types";
+import { CreateType, DeleteType, GetAllTypeCategorys, GetOneTypeCategory, UpdatedType } from "../controller/categorys/types";
 
 const router = express.Router();
 
