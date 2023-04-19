@@ -99,7 +99,7 @@ export const addProduct = async (req, res) => {
             $addToSet: { products: data._id }
           });
         }
-        console.log("data", dataAdd);
+        console.log("data", dataAdd)
         return res.json(data);
       });
       // Xử lý sự kiện khi stream ghi dữ liệu bị lỗi
