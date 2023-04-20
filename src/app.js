@@ -13,7 +13,7 @@ import admin from 'firebase-admin';
 import routerCart from "./routes/cart.js";
 import routerTypes from "./routes/types.js";
 import routerCategorymain from "./routes/categotymain/categorymain.js";
-import serviceAccount from '../public/path/mystorage-265d8-firebase-adminsdk-4jj90-9c56ceaf71.json' assert { type: "json" };;
+import serviceAccount from '../public/path/mystorage-265d8-firebase-adminsdk-4jj90-9c56ceaf71.json' ;
 
 
 const app = express();
