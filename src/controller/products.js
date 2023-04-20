@@ -2,7 +2,7 @@ import { getAll, get, addPost, deleteProduct, editPost } from "../services/produ
 import Products from "../module/products";
 import admin from 'firebase-admin';
 import Category from '../module/category'
-import Categorymain from "../module/categorys/categorymain";
+import Categorymain from "../module/categorymain";
 
 export const getAllProducts = async (req, res) => {
   try {
