@@ -14,6 +14,10 @@ const TypesSchema = new Schema({
   back: {
     type: String,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
   categorymain: [
     {
       cates: {
@@ -24,7 +28,16 @@ const TypesSchema = new Schema({
         type: Date, default: Date.now()
       }
     }
-  ]
+  ],
+  products: [
+    {
+      type: mongoose.Types.ObjectId, ref: 'Products',
+    },
+    {
+      type:Date,
+      default: Date.now()
+    }
+  ],
 }, { timestamps: true });
 
 export default mongoose.model('Types', TypesSchema);

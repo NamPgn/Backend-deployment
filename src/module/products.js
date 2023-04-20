@@ -37,13 +37,23 @@ const productSchema = new Schema({
   LinkCopyright: {
     type: String
   },
+  year: {
+    type: String
+  },
+  country:{
+    type: String
+  },
   comments: [
     {
       commentContent: { type: String },
       user: { type: ObjectId, ref: 'User' },
       date: { type: Date, default: Date.now() }
     }
-  ]
+  ],
+  typeId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Types'
+  }
 }, { timestamps: true });
 productSchema.plugin(mongoosePaginate);
 export default mongoose.model("Products", productSchema);

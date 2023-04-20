@@ -15,7 +15,7 @@ export const GetAllTypeCategorys = async (req, res) => {
 export const GetOneTypeCategory = async (req, res) => {
   try {
     const id = req.params.id;
-    const data = await Types.findById(id).populate('categorymain.cates');
+    const data = await Types.findById(id).populate('categorymain.cates').populate('products');
     return res.status(200).json(data);
   } catch (error) {
     return res.status(400).json({

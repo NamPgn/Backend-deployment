@@ -3,6 +3,7 @@ import Products from "../module/products";
 import admin from 'firebase-admin';
 import Category from '../module/category'
 import Categorymain from "../module/categorymain";
+import Types from "../module/types";
 
 export const getAllProducts = async (req, res) => {
   try {
@@ -39,7 +40,8 @@ export const addProduct = async (req, res) => {
       name, category, trailer,
       price, seri, copyright, LinkCopyright,
       descriptions, categorymain,
-      image
+      image, year, country,
+      typeId
     } = req.body;
 
     const video = req.file;
@@ -85,6 +87,9 @@ export const addProduct = async (req, res) => {
           seri: seri,
           copyright: copyright,
           LinkCopyright: LinkCopyright,
+          typeId: typeId,
+          year: year,
+          country: country
         }
         const data = await addPost(dataAdd);
 
@@ -96,6 +101,12 @@ export const addProduct = async (req, res) => {
 
         if (data.categorymain) {
           await Categorymain.findByIdAndUpdate(data.categorymain, {
+            $addToSet: { products: data._id }
+          });
+        }
+
+        if (data.typeId) {
+          await Types.findByIdAndUpdate(data.typeId, {
             $addToSet: { products: data._id }
           });
         }
