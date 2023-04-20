@@ -5,7 +5,7 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "dev": "node ./src/app.js",
+    "dev": "vite",
     "start": "node --experimental-specifier-resolution=node ./src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,6 +29,7 @@
     "nodemon": "^2.0.20",
     "password-hash": "^1.2.2",
     "path": "^0.12.7",
+    "vite": "^4.3.0",
     "vite-plugin-node": "^3.0.2",
     "xlsx": "^0.18.5"
   }

@@ -1,4 +1,4 @@
-import Types from "../../module/categorys/types";
+import Types from "../module/categorys/types";
 
 
 export const GetAllTypeCategorys = async (req, res) => {
