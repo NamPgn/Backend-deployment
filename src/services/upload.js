@@ -2,8 +2,7 @@ import multer from "multer";
 import User from "../module/auth";
 import Product from "../module/products";
 import { storage, storageProductImage, storageXlxs, storageXlxsProduct } from "../storage/storage";
-var XLSX = require("xlsx");
-
+import XLSX from 'xlsx';
 
 //upload code logic
 //user

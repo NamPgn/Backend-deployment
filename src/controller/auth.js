@@ -1,11 +1,8 @@
 import { addUser, getAll, getUser, editUser, deleteUser, getDataUser } from "../services/auth";
 import { generateToken } from "../services/requestToken";
 import { comparePassWord, passwordHash } from "../services/security";
-var path = require('path');
-import jwt from "jsonwebtoken"
 import { sendMail } from "../utills/mailer";
 import Auth from "../module/auth";
-const PORT = process.env.PORT;
 
 export const signup = async (req, res) => {
     try {

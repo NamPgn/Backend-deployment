@@ -3,17 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "type": "module",
   "scripts": {
-    "start": "node -r esm ./app.js ",
+    "dev": "node ./src/app.js",
+    "start": "node --experimental-specifier-resolution=node ./src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "esm": "^3.2.25",
     "express": "^4.18.2",
     "express-jwt": "^8.3.0",
     "firebase-admin": "^11.5.0",
@@ -25,10 +29,7 @@
     "nodemon": "^2.0.20",
     "password-hash": "^1.2.2",
     "path": "^0.12.7",
-    "xlsx": "^0.18.5",
-    "@babel/cli": "^7.21.0",
-    "@babel/core": "^7.21.3",
-    "@babel/preset-env": "^7.20.2"
+    "vite-plugin-node": "^3.0.2",
+    "xlsx": "^0.18.5"
   }
-
 }
