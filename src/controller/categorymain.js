@@ -1,5 +1,5 @@
-import Categorymain from "../../module/categorys/categorymain";
-import Types from "../../module/categorys/types";
+import Categorymain from "../module/categorys/categorymain";
+import Types from "../module/categorys/types";
 
 export const getAllCategorymain = async (req, res) => {
   try {
