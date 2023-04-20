@@ -3,7 +3,7 @@ import {
   CreateType, DeleteType,
   GetAllTypeCategorys,
   GetOneTypeCategory, UpdatedType
-} from "../controller/categorys/types";
+} from "../controller/categorys/types.js";
 
 const router = express.Router();
 
