@@ -10,7 +10,7 @@ import routerPostList from "./src/routes/post";
 import routerTrailer from "./src/routes/trailerHomePage"
 import routerComments from "./src/routes/comment";
 import admin from 'firebase-admin';
-import routerCart from "./src/routes/cart.js";
+import routerCart from "./src/routes/cart";
 import routerTypes from "./src/routes/types";
 import routerCategorymain from "./src/routes/categotymain/categorymain.js";
 import serviceAccount from './public/path/mystorage-265d8-firebase-adminsdk-4jj90-9c56ceaf71.json'

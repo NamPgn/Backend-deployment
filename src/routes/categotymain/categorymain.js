@@ -1,5 +1,9 @@
 import express from "express";
-import { addCategorymain, deleteCategorymain, getAllCategorymain, getOneCategoryMain, updateCategorymain } from "../../controller/Categorys/Categorymain";
+import {
+  addCategorymain, deleteCategorymain,
+  getAllCategorymain,
+  getOneCategoryMain, updateCategorymain
+} from "../../controller/categorys/Categorymain";
 
 
 const router = express.Router();
