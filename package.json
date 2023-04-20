@@ -25,6 +25,10 @@
     "nodemon": "^2.0.20",
     "password-hash": "^1.2.2",
     "path": "^0.12.7",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2"
   }
+
 }
