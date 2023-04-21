@@ -19,7 +19,7 @@ const router = express.Router();
 router.get('/products', getAllProducts);
 router.get('/product/:id', getOne);
 router.delete('/product/:id/:userId', requiredSignin, isAuth, isAdmin, delete_);
-router.post('/product/', uploadVideoFireBase.single('file'), addProduct);
+router.post('/product/', requiredSignin, isAuth, isAdmin, uploadVideoFireBase.single('file'), addProduct);
 router.put('/product/:id:/:userId', requiredSignin, isAuth, isAdmin, editProduct);
 router.post('/product/creating:/userId', requiredSignin, isAuth, isAdmin, uploadStorageProduct.single('xlsxProduct'), uploadXlxsProducts);
 router.post('/product/deleteMultiple:/userId', requiredSignin, isAuth, isAdmin, deleteMultipleProduct);

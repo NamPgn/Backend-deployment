@@ -151,8 +151,25 @@ export const addProduct = async (req, res) => {
 export const delete_ = async (req, res) => {
   try {
     const id = req.params.id;
+    const body = req.body;
     const data = await deleteProduct(id);
-    console.log("delete suscess")
+    if (body.TypeId) {
+      await Types.findByIdAndUpdate(body.TypeId, { //tìm thằng type
+        $pull: { products: { $in: [id] } },
+      });
+    }
+
+    if (body.CatemainId) {
+      await Categorymain.findByIdAndUpdate(body.TypeId, { //tìm thằng categorymain
+        $pull: { products: { $in: [id] } },
+      });
+    }
+
+    if (body.CategoryId) {
+      await Categorymain.findByIdAndUpdate(body.TypeId, { //tìm thằng category
+        $pull: { products: { $in: [id] } },
+      });
+    }
     return res.status(200).json(data);
   } catch (error) {
     return res.status(400).json({

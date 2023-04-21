@@ -34,7 +34,7 @@ const TypesSchema = new Schema({
       type: mongoose.Types.ObjectId, ref: 'Products',
     },
     {
-      type:Date,
+      type: Date,
       default: Date.now()
     }
   ],

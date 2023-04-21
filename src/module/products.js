@@ -40,7 +40,7 @@ const productSchema = new Schema({
   year: {
     type: String
   },
-  country:{
+  country: {
     type: String
   },
   comments: [
@@ -50,10 +50,15 @@ const productSchema = new Schema({
       date: { type: Date, default: Date.now() }
     }
   ],
+  categorymain: {
+    type: ObjectId,
+    ref: "Categorymain"
+  },
   typeId: {
     type: mongoose.Types.ObjectId,
     ref: 'Types'
   }
 }, { timestamps: true });
+
 productSchema.plugin(mongoosePaginate);
 export default mongoose.model("Products", productSchema);

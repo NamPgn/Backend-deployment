@@ -1,4 +1,5 @@
 import Categorymain from "../module/categorymain";
+import Products from "../module/products";
 import Types from "../module/types";
 
 export const getAllCategorymain = async (req, res) => {
@@ -16,11 +17,11 @@ export const getAllCategorymain = async (req, res) => {
 export const getOneCategoryMain = async (req, res) => {
   try {
     const id = req.params.id;
-    const data = await Categorymain.findById(id).populate('products');
-    res.json(data)
+    const data = await Categorymain.findById(id).populate('products').populate('typeId', 'name');
+    res.json(data);
   } catch (error) {
     res.status(400).json({
-      message: "Lỗi rồi"
+      message: error.message
     })
   }
 }
@@ -41,12 +42,21 @@ export const addCategorymain = async (req, res) => {
   }
 }
 
-export const deleteCategorymain = async (req, res) => {
+export const deleteCategorymainByproduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await Categorymain.findByIdAndDelete(id);
+    const body = req.body;
+    // const data = await Categorymain.findByIdAndDelete(id);
     //thiếu phải nhảy sang thằng type tìm cái id nếu tông tại thì xóa khỏi thằng type
-    res.json(data);
+    const s = await Categorymain.findByIdAndUpdate(body.CatemainId, { //tìm thằng catemain
+      $pull: { products: { $in: [id] } },
+    });
+    const d = await Products.findByIdAndDelete(id);
+    return res.json({
+      success: true,
+      dataProduct: d,
+      dataCateMain: s
+    });
   } catch (error) {
     return res.status(400).json({
       message: error.message
