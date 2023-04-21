@@ -32,7 +32,7 @@ app.use('/api', routerCategorymain)
 app.use(express.static(path.resolve('./public')));
 app.get('/', (req, res) => {
     res.send("Đmm");
-})
+});
 //ss
 try {
     mongoose.connect(`${process.env.URI}`);
