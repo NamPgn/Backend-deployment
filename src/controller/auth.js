@@ -93,7 +93,7 @@ export const singin = async (req, res) => {
             message: 'Thành công',
             token: tokenAuth,
             message: "Đăng nhập thành công!",
-            user:user
+            user: user
         })
     } catch (error) {
         res.status(400).json({
@@ -187,6 +187,15 @@ export const getAuth = async (req, res, next, id) => {
     }
 }
 
+export const getone = async (req, res, next) => {
+    try {
+        const id = req.params.id
+        const user = await Auth.findById(id).exec();
+        res.json(user)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 
 export const commented = async (req, res) => {

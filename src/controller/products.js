@@ -38,7 +38,7 @@ export const addProduct = async (req, res) => {
 
     const {
       name, category, trailer,
-      price, seri, copyright, LinkCopyright,
+      seri,options, copyright, LinkCopyright,
       descriptions, categorymain,
       image, year, country,
       typeId
@@ -79,7 +79,8 @@ export const addProduct = async (req, res) => {
           name: name,
           category: category,
           categorymain: categorymain,
-          price: price,
+          seri: seri,
+          options:options,
           descriptions: descriptions,
           link: url,
           image: image,
@@ -125,7 +126,7 @@ export const addProduct = async (req, res) => {
       const dataAdd = {
         name: name,
         category: category,
-        price: price,
+        seri: seri,
         descriptions: descriptions,
         uploadDate: new Date(),
         seri: seri,
@@ -180,16 +181,17 @@ export const delete_ = async (req, res) => {
 
 export const editProduct = async (req, res) => {
   try {
-    const { name, category, price, _id, link, image, seri, copyright, LinkCopyright, descriptions, trailer } = req.body;
+    const { name, category, seri, _id, options,link, image, copyright, LinkCopyright, descriptions, trailer } = req.body;
     // const { originalname } = req.file;
     const dataEdit = {
       name: name,
       category: category,
-      price: price,
+      seri: seri,
       descriptions: descriptions,
       image: image,
       link: link,
       seri: seri,
+      options:options,
       copyright: copyright,
       LinkCopyright: LinkCopyright,
       trailer: trailer

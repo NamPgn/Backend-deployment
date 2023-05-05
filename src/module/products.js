@@ -15,7 +15,7 @@ const productSchema = new Schema({
     type: ObjectId,
     ref: "Category"
   },
-  price: {
+  seri: {
     type: Number
   },
   select: {
@@ -25,7 +25,7 @@ const productSchema = new Schema({
   uploadDate: {
     type: Date,
   },
-  seri: {
+  options: {
     type: String
   },
   link: {
