@@ -54,7 +54,7 @@ export const updateCate = async (req, res) => {
   try {
     const data = req.body;
     const { id } = req.params
-    const dataEdit = updateCategory(id, data);
+    const dataEdit = await updateCategory(id, data);
     console.log("data", dataEdit);
     res.json(dataEdit);
   } catch (error) {
