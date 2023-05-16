@@ -1,4 +1,4 @@
-import { getAll, get, addPost, deleteProduct, editPost } from "../services/products"
+import { getAll, get, addPost, deleteProduct, editProductSevices } from "../services/products"
 import Products from "../module/products";
 import admin from 'firebase-admin';
 import Category from '../module/category'
@@ -33,57 +33,69 @@ export const getOne = async (req, res) => {
 
 const bucketName = process.env.BUCKET_NAME;
 
+
+
+
 export const addProduct = async (req, res) => {
   try {
-
     const {
       name, category, trailer,
-      seri,options, copyright, LinkCopyright,
+      seri, options, copyright, LinkCopyright,
       descriptions, categorymain,
       image, year, country,
       typeId
     } = req.body;
-
-    const video = req.file;
-    // Xử lý sự kiện khi stream ghi dữ liệu thành công
-    if (video) {
-      // Nếu không có file video, trả về lỗi
-      if (!video) {
-        res.status(400).send({ message: "No video uploaded." });
-        return;
+    const folderName = 'image'
+    const video = req.files['file'][0];;
+    const filename = req.files['image'][0];
+    if (filename && video) {
+      //ảnh
+      if (!filename) {
+        res.status(201).json({ message: "không có hình ảnh" });
       }
-
-      // Tạo metadata cho video
-      const metadata = {
-        contentType: video.mimetype
+      if (!video) {
+        res.status(201).send({ message: "No video uploaded." });
+      }
+      const metadataImage = {
+        contentType: filename.mimetype
       };
-
-      // Tạo tên file mới cho video
-      const fileName = `${Date.now()}-${video.originalname ? video.originalname : ''}`;
+      const fileNameimage = `${folderName}/${Date.now()}-${filename.originalname}`;
       // Tạo đường dẫn đến file trên Firebase Storage
-      const file = admin.storage().bucket(bucketName).file(fileName);
+      const file = admin.storage().bucket(bucketName).file(fileNameimage);
       // Tạo stream để ghi dữ liệu video vào Firebase Storage
       const stream = file.createWriteStream({
-        metadata,
+        metadataImage,
         resumable: false
       });
 
-      stream.on("finish", async () => {
-        var url = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${fileName}?alt=media`
-        // Tạo URL cho video
-        // const urls = 'https://firebasestorage.googleapis.com/v0/b/mystorage-265d8.appspot.com/o/Chinese-Wedding-Girl-_-Live-Wallpaper-_.mp4?alt=media&token=97bec8b6-3279-4826-a62a-8f0401fd7db1'
+      //video
+      const metadatavideo = {
+        contentType: video.mimetype
+      };
+      // Tạo tên file mới cho video
+      const fileNamevideo = `${Date.now()}-${video.originalname ? video.originalname : ''}`;
+      // Tạo đường dẫn đến file trên Firebase Storage
+      const filevideo = admin.storage().bucket(bucketName).file(fileNamevideo);
+      // Tạo stream để ghi dữ liệu video vào Firebase Storage
+      const streamvideo = filevideo.createWriteStream({
+        metadatavideo,
+        resumable: false
+      });
+      const encodedFileName = encodeURIComponent(fileNameimage)
+      streamvideo && stream.on("finish", async () => {
 
-        // Trả về URL của video cho client
+        const urlvideo = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${fileNamevideo}?alt=media`;
+        const urlimage = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${encodedFileName}?alt=media`;
 
         const dataAdd = {
           name: name,
           category: category,
           categorymain: categorymain,
           seri: seri,
-          options:options,
+          options: options,
           descriptions: descriptions,
-          link: url,
-          image: image,
+          link: urlvideo,
+          image: urlimage,
           uploadDate: new Date(),
           seri: seri,
           copyright: copyright,
@@ -93,7 +105,6 @@ export const addProduct = async (req, res) => {
           country: country
         }
         const data = await addPost(dataAdd);
-
         if (data.category) {
           await Category.findByIdAndUpdate(data.category, {
             $addToSet: { products: data._id }
@@ -111,17 +122,25 @@ export const addProduct = async (req, res) => {
             $addToSet: { products: data._id }
           });
         }
-        console.log("data", dataAdd)
+        console.log("data", data);
+
         return res.json(data);
-      });
-      // Xử lý sự kiện khi stream ghi dữ liệu bị lỗi
+      })
       stream.on("error", err => {
         console.error(err);
         res.status(500).send({ message: "Failed to upload video." });
       });
 
       // Ghi dữ liệu video vào stream
-      stream.end(video.buffer);
+      stream.end(filename.buffer);
+      // Xử lý sự kiện khi stream ghi dữ liệu bị lỗi
+      streamvideo.on("error", err => {
+        console.error(err);
+        res.status(500).send({ message: "Failed to upload video." });
+      });
+
+      // Ghi dữ liệu video vào stream
+      streamvideo.end(video.buffer);
     } else {
       const dataAdd = {
         name: name,
@@ -138,7 +157,7 @@ export const addProduct = async (req, res) => {
       console.log("data", dataAdd);
       res.json(data);
     }
-
+    // Xử lý sự kiện khi stream ghi dữ liệu thành công
   } catch (error) {
     console.log(error)
     res.status(500).json({
@@ -149,56 +168,186 @@ export const addProduct = async (req, res) => {
   }
 }
 
-export const delete_ = async (req, res) => {
+export const delete_ = async (req, res,next) => {
   try {
     const id = req.params.id;
     const body = req.body;
-    const data = await deleteProduct(id);
-    if (body.TypeId) {
-      await Types.findByIdAndUpdate(body.TypeId, { //tìm thằng type
+    const folderName = 'image';
+    const deletedProduct = await Products.findById(id);
+    if (!deletedProduct) {
+      // Sản phẩm không tồn tại
+      return res.status(404).json({ message: 'Product not found.' });
+    }
+
+    // Xóa tệp video từ Firebase Storage
+    const videoFileName = deletedProduct.link.split('/').pop().split('?alt=media')[0]; // Lấy tên tệp video từ URL
+    const videoFile = admin.storage().bucket(bucketName).file(videoFileName);
+    if (videoFileName) {
+      await videoFile.delete();
+    }
+
+    // Xóa tệp hình ảnh từ Firebase Storage
+    const imageFileName = deletedProduct.image.split(`/`).pop().split('?alt=media')[0]; // Lấy tên tệp hình ảnh từ URL
+    const decodedImage = decodeURIComponent(imageFileName).split('/')[1]; //
+    const imageFile = admin.storage().bucket(bucketName).file(`${folderName}/${decodedImage}`); //còn thằng này không có folder mà là lấy chay nên phải lấy ra thằng cuối cùng .
+    if (decodedImage) {
+      await imageFile.delete();
+    }
+
+    if (deletedProduct.typeId) {
+      await Types.findByIdAndUpdate(deletedProduct.typeId, { //tìm thằng type
         $pull: { products: { $in: [id] } },
       });
     }
 
-    if (body.CatemainId) {
-      await Categorymain.findByIdAndUpdate(body.TypeId, { //tìm thằng categorymain
+    if (deletedProduct.categorymain) {
+      await Categorymain.findByIdAndUpdate(deletedProduct.categorymain, { //tìm thằng categorymain
         $pull: { products: { $in: [id] } },
       });
     }
 
-    if (body.CategoryId) {
-      await Categorymain.findByIdAndUpdate(body.TypeId, { //tìm thằng category
-        $pull: { products: { $in: [id] } },
+    if (deletedProduct.category) {
+      await Categorymain.findByIdAndUpdate(deletedProduct.category, { //tìm thằng category
+        $pull: { products: { $in: [id] } }, // tìm tất ca thằng product trong list category có id trùng vs thằng id product
       });
     }
-    return res.status(200).json(data);
+    await deleteProduct(id);
+    return res.json({ message: 'Product deleted successfully.' });
   } catch (error) {
+    // console.log(error);
     return res.status(400).json({
       message: error.message
     })
   }
 }
 
-export const editProduct = async (req, res) => {
+export const editProduct = async (req, res,next) => {
   try {
-    const { name, category, seri, _id, options,link, image, copyright, LinkCopyright, descriptions, trailer } = req.body;
-    // const { originalname } = req.file;
-    const dataEdit = {
-      name: name,
-      category: category,
-      seri: seri,
-      descriptions: descriptions,
-      image: image,
-      link: link,
-      seri: seri,
-      options:options,
-      copyright: copyright,
-      LinkCopyright: LinkCopyright,
-      trailer: trailer
+    const id = req.params.id;
+    const folderName = 'image';
+    const {
+      name,
+      category,
+      categorymain,
+      year,
+      country,
+      typeId,
+      seri,
+      options,
+      copyright,
+      LinkCopyright,
+      descriptions,
+      trailer
+    } = req.body;
+
+
+    // const data = await editProductSevices(_id, dataEdit);
+    const findById = await Products.findById(id);
+    // Kiểm tra sản phẩm có tồn tại trong CSDL hay không
+    if (!findById) {
+      return res.status(404).json({ message: 'Product not found.' });
     }
-    const data = await editPost(_id, dataEdit);
-    console.log("data", _id, data);
-    return res.status(200).json(data);
+
+    findById.name = name;
+    findById.category = category;
+    findById.seri = seri;
+    findById.descriptions = descriptions;
+    // image: image,
+    // link: link,
+    findById.seri = seri;
+    findById.options = options;
+    findById.copyright = copyright;
+    findById.LinkCopyright = LinkCopyright;
+    findById.trailer = trailer;
+    findById.country = country;
+    findById.year = year;
+    findById.categorymain = categorymain;
+    findById.typeId = typeId;
+
+    const newVideoFile = req.files['file'] && req.files['file'][0];;
+    const newImageFile = req.files['image'] && req.files['image'][0];
+
+    if (newVideoFile && newImageFile) {
+
+      // Xóa tệp hình ảnh cũ từ Firebase Storage
+      const oldImageFileName = findById.image.split(`/`).pop().split('?alt=media')[0]; //lấy sau thằng image vì nó qua folder name là image
+      const decodedImage = decodeURIComponent(oldImageFileName).split('/')[1]; //
+      const oldImageFile = admin.storage().bucket(bucketName).file(`${folderName}/${decodedImage}`); //còn thằng này không có folder mà là lấy chay nên phải lấy ra thằng cuối cùng .
+      if (decodedImage) {
+        await oldImageFile.delete();
+      }
+
+      // Xóa tệp video cũ từ Firebase Storage
+      const oldVideoFileName = findById.link.split('/').pop().split('?alt=media')[0];
+      const oldVideoFile = admin.storage().bucket(bucketName).file(oldVideoFileName);
+      if (oldVideoFile) {
+        await oldVideoFile.delete();
+      }
+
+      const metadataImage = {
+        contentType: newImageFile.mimetype
+      }
+      const metadataVideo = {
+        contentType: newVideoFile.mimetype
+      }
+
+      const fileNameImage = `${folderName}/${Date.now()}-${newImageFile.originalname}`;
+      const fileNameVideo = `${Date.now()}-${newVideoFile.originalname}`;
+
+      const fileImage = admin.storage().bucket(bucketName).file(fileNameImage);
+      const fileVideo = admin.storage().bucket(bucketName).file(fileNameVideo);
+
+      const streamImage = fileImage.createWriteStream({
+        metadata: metadataImage,
+        resumable: false
+      });
+
+      const streamVideo = fileVideo.createWriteStream({
+        metadata: metadataVideo,
+        resumable: false
+      });
+
+      //encode url
+      const encodedFileName = encodeURIComponent(fileNameImage);
+      streamImage && streamVideo.on('finish', async () => {
+
+        const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${encodedFileName}?alt=media`;
+        const videoUrl = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${fileNameVideo}?alt=media`;
+
+        //cập nhật
+        findById.seri = seri;
+        findById.options = options;
+        findById.copyright = copyright;
+        findById.LinkCopyright = LinkCopyright;
+        findById.trailer = trailer;
+        findById.country = country;
+        findById.year = year;
+        findById.categorymain = categorymain;
+        findById.typeId = typeId;
+        findById.image = imageUrl;
+        findById.link = videoUrl;
+
+        // lưu vào database
+        const data = await findById.save();
+
+        return res.status(200).json({ success: true, message: "Dữ liệu sản phẩm đã được cập nhật.", data: data });
+      })
+    } else {
+      // Không có tệp hình ảnh mới, chỉ cập nhật các thông tin khác của sản phẩm
+      findById.seri = seri;
+      findById.options = options;
+      findById.copyright = copyright;
+      findById.LinkCopyright = LinkCopyright;
+      findById.trailer = trailer;
+      findById.country = country;
+      findById.year = year;
+      findById.categorymain = categorymain;
+      findById.typeId = typeId;
+
+      await findById.save();
+      return res.status(200).json({ success: true, message: "Dữ liệu sản phẩm đã được cập nhật.", data: findById });
+    }
+    // add
   } catch (error) {
     return res.status(400).json({
       message: error.message
@@ -227,7 +376,6 @@ export const deleteMultipleProduct = async (req, res) => {
 }
 
 ////12324tw7rt87wery8q7weyr78qwer
-
 
 export const getAllProductsByCategory = async (req, res) => {
   try {

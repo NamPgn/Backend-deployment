@@ -7,9 +7,9 @@ import {
   findCommentByIdProduct,
 } from '../controller/products'
 import {
-  uploadProduct, uploadStorageProduct,
-  uploadVideoFireBase, uploadVideoProducts,
+  uploadStorageProduct,
   uploadXlxsProducts,
+  uploadvideoandimage,
 } from '../services/upload';
 import { isAdmin, isAuth, requiredSignin } from "../middlewares/checkAuth";
 import { getAuth } from '../controller/auth';
@@ -19,8 +19,8 @@ const router = express.Router();
 router.get('/products', getAllProducts);
 router.get('/product/:id', getOne);
 router.delete('/product/:id/:userId', requiredSignin, isAuth, isAdmin, delete_);
-router.post('/product/',  uploadVideoFireBase.single('file'), addProduct);
-router.put('/product/:id:/:userId', requiredSignin, isAuth, isAdmin, editProduct);
+router.post('/product/:userId', requiredSignin, isAuth, isAdmin, uploadvideoandimage, addProduct);
+router.put('/product/:id:/:userId', requiredSignin, isAuth, isAdmin, uploadvideoandimage, editProduct);
 router.post('/product/creating:/userId', requiredSignin, isAuth, isAdmin, uploadStorageProduct.single('xlsxProduct'), uploadXlxsProducts);
 router.post('/product/deleteMultiple:/userId', requiredSignin, isAuth, isAdmin, deleteMultipleProduct);
 router.get('/category/products/:id', getAllProductsByCategory);

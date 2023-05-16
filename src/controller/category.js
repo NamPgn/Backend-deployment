@@ -95,7 +95,6 @@ export const searchCategory = async (req, res) => {
     const data = await Category.find({
       $or: [{ name: regex }]
     })
-    console.log(data)
     res.json(data);
   } catch (error) {
     return res.status(400).json({

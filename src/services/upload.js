@@ -103,9 +103,6 @@ export const uploadVideoProducts = multer({ storage: storageVideosProducts }); /
 
 
  
-export const uploadVideoFireBase = multer({ // upload video to firebase
+export const uploadvideoandimage = multer({
   storage: multer.memoryStorage(),
-  limits: {
-    fileSize: 10000000 * 1024 * 1024 // Giới hạn tải lên là 10 MB
-  }
-});
+}).fields([{ name: 'file', maxCount: 1 }, { name: 'image', maxCount: 1 }]);
