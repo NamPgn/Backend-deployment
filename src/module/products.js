@@ -12,11 +12,12 @@ const productSchema = new Schema({
     type: String
   },
   category: {
-    type: ObjectId,
-    ref: "Category"
+    type: mongoose.Schema.Types.Mixed ,
+    ref: "Category",
+    required: false,
   },
   seri: {
-    type: Number
+    type: String
   },
   select: {
     type: Boolean,
@@ -51,12 +52,14 @@ const productSchema = new Schema({
     }
   ],
   categorymain: {
-    type: ObjectId,
-    ref: "Categorymain"
+    type: mongoose.Schema.Types.Mixed,
+    ref: "Categorymain",
+    required: false,
   },
   typeId: {
-    type: mongoose.Types.ObjectId,
-    ref: 'Types'
+    type: mongoose.Schema.Types.Mixed ,
+    ref: 'Types',
+    required: false,
   }
 }, { timestamps: true });
 

@@ -4,6 +4,7 @@ import admin from 'firebase-admin';
 import Category from '../module/category'
 import Categorymain from "../module/categorymain";
 import Types from "../module/types";
+import types from "../module/types";
 
 export const getAllProducts = async (req, res) => {
   try {
@@ -43,7 +44,7 @@ export const addProduct = async (req, res) => {
       seri, options, copyright, LinkCopyright,
       descriptions, categorymain,
       image, year, country,
-      typeId
+      typeId,price
     } = req.body;
     const folderName = 'image'
     const video = req.files['file'][0];;
@@ -97,7 +98,7 @@ export const addProduct = async (req, res) => {
           link: urlvideo,
           image: urlimage,
           uploadDate: new Date(),
-          seri: seri,
+          price: price,
           copyright: copyright,
           LinkCopyright: LinkCopyright,
           typeId: typeId,
@@ -148,7 +149,7 @@ export const addProduct = async (req, res) => {
         seri: seri,
         descriptions: descriptions,
         uploadDate: new Date(),
-        seri: seri,
+        price: price,
         copyright: copyright,
         LinkCopyright: LinkCopyright,
         trailer: trailer
@@ -168,7 +169,7 @@ export const addProduct = async (req, res) => {
   }
 }
 
-export const delete_ = async (req, res,next) => {
+export const delete_ = async (req, res, next) => {
   try {
     const id = req.params.id;
     const body = req.body;
@@ -221,7 +222,7 @@ export const delete_ = async (req, res,next) => {
   }
 }
 
-export const editProduct = async (req, res,next) => {
+export const editProduct = async (req, res, next) => {
   try {
     const id = req.params.id;
     const folderName = 'image';
@@ -395,6 +396,23 @@ export const findCommentByIdProduct = async (req, res) => {
     console.log("_id", _id);
     const data = await Products.findById(_id).populate('comments.user', 'username image');
     res.json(data);
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message
+    })
+  }
+}
+
+
+export const push = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const body = req.body;
+    const data = await Products.findById(id);
+    const newData = await Types.findByIdAndUpdate(body.typeId, {
+      $addToSet: { products: data }
+    });
+    res.json(newData);
   } catch (error) {
     return res.status(400).json({
       message: error.message

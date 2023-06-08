@@ -5,6 +5,7 @@ import {
   editProduct, getAllProducts, getOne,
   getAllProductsByCategory,
   findCommentByIdProduct,
+  push,
 } from '../controller/products'
 import {
   uploadStorageProduct,
@@ -26,5 +27,6 @@ router.post('/product/deleteMultiple:/userId', requiredSignin, isAuth, isAdmin, 
 router.get('/category/products/:id', getAllProductsByCategory);
 router.get('/products/search', searchCategory);
 router.get('/product/comments/:id', findCommentByIdProduct);
+router.post('/product/pushlist/:id', push)
 router.param('userId', getAuth)
 export default router;
