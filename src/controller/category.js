@@ -4,6 +4,7 @@ import Category from "../module/category";
 
 export const getAll = async (req, res) => {
   try {
+    await Category.createIndexes();
     const data = await getAllCategory();
     res.json(data);
   } catch (error) {

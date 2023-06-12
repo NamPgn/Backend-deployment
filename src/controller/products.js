@@ -5,6 +5,7 @@ import Category from '../module/category'
 import Categorymain from "../module/categorymain";
 import Types from "../module/types";
 import types from "../module/types";
+import mongoose from "mongoose";
 
 export const getAllProducts = async (req, res) => {
   try {
@@ -27,15 +28,12 @@ export const getOne = async (req, res) => {
   } catch (error) {
     console.log(error)
     return res.status(400).json({
-      message: "Không ìm thấy bài viết"
+      message: "Không ìm thấy phim"
     })
   }
 }
 
 const bucketName = process.env.BUCKET_NAME;
-
-
-
 
 export const addProduct = async (req, res) => {
   try {
@@ -44,7 +42,7 @@ export const addProduct = async (req, res) => {
       seri, options, copyright, LinkCopyright,
       descriptions, categorymain,
       image, year, country,
-      typeId,price
+      typeId, price
     } = req.body;
     const folderName = 'image'
     const video = req.files['file'][0];;
@@ -380,9 +378,34 @@ export const deleteMultipleProduct = async (req, res) => {
 
 export const getAllProductsByCategory = async (req, res) => {
   try {
-    const category = req.params.id;
-    const data = await Products.find({ category: category });
+    const categoryId = req.params.id;
+    const data = await Products.aggregate([
+      {
+        $lookup: {
+          from: "categories",
+          localField: "category",
+          foreignField: "_id",
+          as: "category"
+        }
+      },
+      {
+        $match: {
+          "category._id": mongoose.Types.ObjectId(categoryId)
+        }
+      }
+    ]);
+    // const data = await Products.find({ category: categoryId })
+
     res.json(data);
+
+    //Trong đó:
+    // $lookup là phương thức kết hợp (join) dữ liệu từ hai bảng Products và categories.
+    // from là tên bảng categories.
+    // localField là trường category trong bảng Products.
+    // foreignField là trường _id trong bảng categories.
+    // as là tên mới cho trường category sau khi thực hiện join.
+    // $match là phương thức lọc dữ liệu, chỉ lấy các sản phẩm có trường category._id bằng với categoryId.
+
   } catch (error) {
     return res.status(400).json({
       message: error.message

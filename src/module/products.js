@@ -62,6 +62,6 @@ const productSchema = new Schema({
     required: false,
   }
 }, { timestamps: true });
-
+productSchema.indexes();
 productSchema.plugin(mongoosePaginate);
 export default mongoose.model("Products", productSchema);

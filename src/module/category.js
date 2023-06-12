@@ -22,6 +22,5 @@ const categorySchema = new mongoose.Schema({
     type: String
   }
 }, { timestamps: true });
-
-
+categorySchema.indexes();
 export default mongoose.model("Category", categorySchema);
