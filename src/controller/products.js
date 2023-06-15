@@ -378,23 +378,24 @@ export const deleteMultipleProduct = async (req, res) => {
 
 export const getAllProductsByCategory = async (req, res) => {
   try {
-    const categoryId = req.params.id;
-    const data = await Products.aggregate([
-      {
-        $lookup: {
-          from: "categories",
-          localField: "category",
-          foreignField: "_id",
-          as: "category"
-        }
-      },
-      {
-        $match: {
-          "category._id": mongoose.Types.ObjectId(categoryId)
-        }
-      }
-    ]);
-    // const data = await Products.find({ category: categoryId })
+    const id = req.params.id;
+    // const data = await Products.aggregate([
+    //   {
+    //     $lookup: {
+    //       from: "categories",
+    //       localField: "category",
+    //       foreignField: "_id",
+    //       as: "category"
+    //     }
+    //   },
+    //   {
+    //     $match: {
+    //       "category._id": mongoose.Types.ObjectId(categoryId)
+    //     }
+    //   }
+    // ]);
+    const categoryId = mongoose.Types.ObjectId(id);
+    const data = await Products.find({ category: categoryId })
 
     res.json(data);
 

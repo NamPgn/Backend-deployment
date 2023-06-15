@@ -14,7 +14,6 @@ const productSchema = new Schema({
   category: {
     type: mongoose.Schema.Types.Mixed ,
     ref: "Category",
-    required: false,
   },
   seri: {
     type: String

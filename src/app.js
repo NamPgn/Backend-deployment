@@ -14,20 +14,28 @@ import routerCart from "./routes/cart.js";
 import routerTypes from "./routes/types.js";
 import routerCategorymain from "./routes/categorymain.js";
 import serviceAccount from '../public/path/mystorage-265d8-firebase-adminsdk-4jj90-9c56ceaf71.json';
+import routerWeek from "./routes/week.category";
+const port = process.env.PORT || 3000;
+const routers = [
+    routerAuth,
+    routerProducts,
+    routerCategory,
+    routerPostList,
+    routerTrailer,
+    routerComments,
+    routerCart,
+    routerTypes,
+    routerCategorymain,
+    routerWeek
+]
+
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
-const port = process.env.PORT;
-app.use("/api", routerAuth);
-app.use("/api", routerProducts);
-app.use("/api", routerCategory)
-app.use('/api', routerPostList)
-app.use('/api', routerTrailer)
-app.use('/api', routerComments);
-app.use('/api', routerCart);
-app.use('/api', routerTypes)
-app.use('/api', routerCategorymain)
+
+routers.map(router => app.use("/api", router))
+
 app.use(express.static(path.resolve('./public')));
 app.get('/', (req, res) => {
     res.send("Đmm");
@@ -48,4 +56,3 @@ admin.initializeApp({
 app.listen(port, () => {
     console.log(`Server is running on: http://localhost:${port}`);
 });
-

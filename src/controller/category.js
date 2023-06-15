@@ -1,6 +1,8 @@
 import { addCategory, getAllCategory, getCategory, updateCategory, deleteCategory } from "../services/category"
 import Products from "../module/products";
 import Category from "../module/category";
+import WeekCategory from "../module/week.category";
+import weekCategory from "../module/week.category";
 
 export const getAll = async (req, res) => {
   try {
@@ -40,10 +42,11 @@ export const readProductByCategory = async (req, res) => {
 export const addCt = async (req, res) => {
   try {
     const data = req.body;
-    console.log("data", data);
     const cate = await addCategory(data);
-
-    res.json(cate)
+    await WeekCategory.findByIdAndUpdate(cate.week, {
+      $addToSet: { category: cate._id }
+    })
+    return res.json(cate);
   } catch (error) {
     return res.status(400).json({
       message: error.message
@@ -56,7 +59,12 @@ export const updateCate = async (req, res) => {
     const data = req.body;
     const { id } = req.params
     const dataEdit = await updateCategory(id, data);
-    console.log("data", dataEdit);
+    // Cập nhật thông tin category tương ứng trong bảng week
+    await WeekCategory.findOneAndUpdate(
+      { _id: dataEdit.week },
+      { $set: { "category.$[elem]": dataEdit } },
+      { arrayFilters: [{ "elem._id": dataEdit._id }] }
+    );
     res.json(dataEdit);
   } catch (error) {
     return res.status(400).json({
@@ -69,7 +77,10 @@ export const deleteCategoryController = async (req, res) => {
   try {
     const { id } = req.params;
     const data = await deleteCategory(id);
-    res.json(data);
+    await WeekCategory.findByIdAndDelete(data.week, {
+      $pull: { category: data._id }
+    })
+    return res.json(data);
   } catch (error) {
     return res.status(400).json({
       message: error.message
@@ -97,6 +108,22 @@ export const searchCategory = async (req, res) => {
       $or: [{ name: regex }]
     })
     res.json(data);
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message
+    })
+  }
+}
+
+export const push = async (req, res) => {
+  try {
+    const categoryId = req.params.id;
+    const body = req.body;
+    const data = await Category.findById(categoryId);
+    const newData = await weekCategory.findByIdAndUpdate(body.weekId, {
+      $addToSet: { category: data },
+    })
+    res.json(newData);
   } catch (error) {
     return res.status(400).json({
       message: error.message
