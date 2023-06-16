@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const trailerHompage = new Schema({
+  name: String,
   url: {
     type: String
   }
