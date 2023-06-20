@@ -6,8 +6,8 @@ import { uploadTrailer } from "../services/upload";
 const router = express.Router()
 
 router.get('/trailerUrl', getUrlTrailerControllers);
-router.put('/trailerUrl/:id', uploadTrailer.single('url'), editTrailerHomePageUrlController);
+router.post('/trailer/:userId', requiredSignin, isAuth, isAdmin, uploadTrailer.single('url'), create);
+router.put('/trailerUrl/:id/:userId', requiredSignin, isAuth, isAdmin, uploadTrailer.single('url'), editTrailerHomePageUrlController);
 router.get('/trailerUrl/:id', getTrailerController);
-router.post('/trailer', uploadTrailer.single('url'), create)
-router.param('userId', getAuth)
+router.param('userId', getAuth);
 export default router;

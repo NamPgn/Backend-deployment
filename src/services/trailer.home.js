@@ -1,4 +1,4 @@
-import trailerHomePageModel from "../module/trailerHomePageModel";
+import trailerHomePageModel from "../module/trailer.home";
 
 export const getTrailerHomePageUrlSevices = async () => {
   return await trailerHomePageModel.find();

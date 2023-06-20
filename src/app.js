@@ -4,10 +4,9 @@ import cors from "cors"
 import mongoose from "mongoose";
 import routerAuth from "./routes/auth";
 import routerProducts from "./routes/products.js"
-import path from "path";
 import routerCategory from "./routes/category.js";
 import routerPostList from "./routes/post.js";
-import routerTrailer from "./routes/trailerHomePage.js"
+import routerTrailer from "./routes/trailer.home"
 import routerComments from "./routes/comment.js";
 import admin from 'firebase-admin';
 import routerCart from "./routes/cart.js";
@@ -36,11 +35,11 @@ app.use(cors());
 
 routers.map(router => app.use("/api", router))
 
-app.use(express.static(path.resolve('./public')));
 app.get('/', (req, res) => {
     res.send("Đmm");
 });
-//ss
+
+
 try {
     mongoose.connect(`${process.env.URI}`);
     console.log("Kết nôt mongodb thành công")

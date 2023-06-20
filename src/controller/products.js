@@ -4,8 +4,8 @@ import admin from 'firebase-admin';
 import Category from '../module/category'
 import Categorymain from "../module/categorymain";
 import Types from "../module/types";
-import types from "../module/types";
 import mongoose from "mongoose";
+import WeekCategory from "../module/week.category";
 
 export const getAllProducts = async (req, res) => {
   try {
@@ -428,7 +428,7 @@ export const findCommentByIdProduct = async (req, res) => {
 }
 
 
-export const push = async (req, res) => {
+export const pushtoTypes = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
@@ -436,6 +436,22 @@ export const push = async (req, res) => {
     const newData = await Types.findByIdAndUpdate(body.typeId, {
       $addToSet: { products: data }
     });
+    res.json(newData);
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message
+    })
+  }
+}
+
+export const pushToWeek = async () => {
+  try {
+    const productId = req.params.id;
+    const body = req.body;
+    const data = await Products.findById(productId);
+    const newData = await WeekCategory.findByIdAndUpdate(body.weekId, {
+      $addToSet: { category: data },
+    })
     res.json(newData);
   } catch (error) {
     return res.status(400).json({

@@ -1,5 +1,5 @@
-import trailerHomePageModel from "../module/trailerHomePageModel";
-import { editTrailerHomePageUrlSevices, getTrailerHomePageUrlSevices, getTrailerUrlSevices } from "../services/trailerHomePageSevices";
+import trailerHomePageModel from "../module/trailer.home";
+import { getTrailerHomePageUrlSevices, getTrailerUrlSevices } from "../services/trailer.home";
 import admin from 'firebase-admin';
 const bucketName = process.env.BUCKET_NAME;
 const folderName = 'trailer'
