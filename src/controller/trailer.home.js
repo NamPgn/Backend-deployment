@@ -5,7 +5,7 @@ const bucketName = process.env.BUCKET_NAME;
 const folderName = 'trailer'
 export const getUrlTrailerControllers = async (req, res) => {
   try {
-    const data = await getTrailerHomePageUrlSevices();
+    const data = await trailerHomePageModel.findOne();
     res.status(200).json(data);
   } catch (error) {
     console.log(error);
@@ -80,8 +80,7 @@ export const editTrailerHomePageUrlController = async (req, res) => {
 
 export const getTrailerController = async (req, res) => {
   try {
-    const id = req.params.id;
-    const data = await getTrailerUrlSevices(id);
+    const data = await getTrailerUrlSevices();
     res.json(data);
   } catch (error) {
     console.log(error);
