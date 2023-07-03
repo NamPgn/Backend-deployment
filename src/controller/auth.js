@@ -98,7 +98,7 @@ export const singin = async (req, res) => {
     } catch (error) {
         res.status(400).json({
             success: false,
-            message: 'Xem lại code đi',
+            message: error.message,
         })
     }
 }

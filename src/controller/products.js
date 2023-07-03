@@ -6,16 +6,22 @@ import Categorymain from "../module/categorymain";
 import Types from "../module/types";
 import mongoose from "mongoose";
 import WeekCategory from "../module/week.category";
+import { DEFAULT_LIMIT } from "../constans/constan";
 
 export const getAllProducts = async (req, res) => {
   try {
-    const data = await getAll();
+    const page = parseInt(req.query.page) || 0;
+    const skip = (page - 1) * DEFAULT_LIMIT; //số lượng bỏ qua
+    const data = await getAll(DEFAULT_LIMIT, skip);
     res.status(200).json(
-      data
+      {
+        data: data,
+        length: (await getAll()).length
+      }
     );
   } catch (error) {
     return res.status(400).json({
-      message: "Lỗi rồi"
+      message: error.message
     })
   }
 }
@@ -23,7 +29,7 @@ export const getAllProducts = async (req, res) => {
 export const getOne = async (req, res) => {
   try {
     const _id = { _id: req.params.id };
-    const data = await Products.findById(_id).populate('comments.user', 'username image').populate('category');
+    const data = await Products.findById(_id).populate('comments.user', 'username image').populate('category', 'name sumSeri');
     res.json(data);
   } catch (error) {
     console.log(error)
@@ -88,8 +94,8 @@ export const addProduct = async (req, res) => {
 
         const dataAdd = {
           name: name,
-          category: category,
-          categorymain: categorymain,
+          category: category || undefined,
+          categorymain: categorymain || undefined,
           seri: seri,
           options: options,
           descriptions: descriptions,
@@ -99,7 +105,7 @@ export const addProduct = async (req, res) => {
           price: price,
           copyright: copyright,
           LinkCopyright: LinkCopyright,
-          typeId: typeId,
+          typeId: typeId || undefined,
           year: year,
           country: country
         }

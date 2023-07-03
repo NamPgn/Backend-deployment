@@ -38,6 +38,12 @@ const TypesSchema = new Schema({
       default: Date.now()
     }
   ],
+  category: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'Category'
+    }
+  ]
 }, { timestamps: true });
 
 export default mongoose.model('Types', TypesSchema);

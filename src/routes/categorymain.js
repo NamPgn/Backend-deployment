@@ -5,13 +5,13 @@ import {
   getOneCategoryMain, updateCategorymain
 } from "../controller/categorymain";
 import { isAdmin, isAuth, requiredSignin } from "../middlewares/checkAuth";
-
+import { getAuth } from '../controller/auth';
 const router = express.Router();
 
 router.get('/categorymain', getAllCategorymain);
 router.get('/categorymain/:id', getOneCategoryMain);
 router.post('/categorymain', requiredSignin, isAuth, isAdmin, addCategorymain);
-router.delete('/categorymain/:id', requiredSignin, isAuth, isAdmin, deleteCategorymainByproduct);
+router.post('/categorymain/:id/:userId', requiredSignin, isAuth, isAdmin, deleteCategorymainByproduct);
 router.put('/category/:id', requiredSignin, isAuth, isAdmin, updateCategorymain);
-
+router.param('userId', getAuth);
 export default router

@@ -110,3 +110,7 @@ export const uploadvideoandimage = multer({
 export const uploadTrailer = multer({
   storage: multer.memoryStorage(),
 })
+
+export const uploadCategory = multer({
+  storage: multer.memoryStorage(),
+})

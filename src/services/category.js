@@ -1,11 +1,11 @@
 import Category from "../module/category"
 
-export const getAllCategory = async () => {
-  return await Category.find().exec();
+export const getAllCategory = async (limit, offset) => {
+  return await Category.find().limit(limit).skip(offset).exec();
 }
 
 export const getCategory = async (id) => {
-  return await Category.findOne({'_id':id}).populate('products');
+  return await Category.findOne({ '_id': id }).populate('products');
 }
 
 export const addCategory = async (data) => {

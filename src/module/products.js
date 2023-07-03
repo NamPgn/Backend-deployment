@@ -12,7 +12,7 @@ const productSchema = new Schema({
     type: String
   },
   category: {
-    type: mongoose.Schema.Types.Mixed ,
+    type: ObjectId,
     ref: "Category",
   },
   seri: {
@@ -51,12 +51,12 @@ const productSchema = new Schema({
     }
   ],
   categorymain: {
-    type: mongoose.Schema.Types.Mixed,
+    type: ObjectId,
     ref: "Categorymain",
     required: false,
   },
   typeId: {
-    type: mongoose.Schema.Types.Mixed ,
+    type: ObjectId,
     ref: 'Types',
     required: false,
   }
