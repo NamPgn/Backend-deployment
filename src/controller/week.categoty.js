@@ -2,7 +2,7 @@ import WeekCategory from "../module/week.category";
 
 export const all = async (req, res) => {
   try {
-    const data = await WeekCategory.find().populate('category');
+    const data = await WeekCategory.find().populate('category').populate('products');
     return res.json(data);
   } catch (error) {
     return res.status(404).json({
@@ -13,7 +13,7 @@ export const all = async (req, res) => {
 
 export const one = async (req, res) => {
   try {
-    const data = await WeekCategory.findById(req.params.id).populate('category');
+    const data = await WeekCategory.findById(req.params.id).populate('category').populate('products');
     res.json(data);
   } catch (error) {
     return res.status(404).json({

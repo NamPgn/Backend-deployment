@@ -29,7 +29,7 @@ export const getAllProducts = async (req, res) => {
 export const getOne = async (req, res) => {
   try {
     const _id = { _id: req.params.id };
-    const data = await Products.findById(_id).populate('comments.user', 'username image').populate('category', 'name sumSeri');
+    const data = await Products.findById(_id).populate('comments.user', 'username image').populate('category');
     res.json(data);
   } catch (error) {
     console.log(error)
@@ -48,7 +48,7 @@ export const addProduct = async (req, res) => {
       seri, options, copyright, LinkCopyright,
       descriptions, categorymain,
       image, year, country,
-      typeId, price
+      typeId, view
     } = req.body;
     const folderName = 'image'
     const video = req.files['file'][0];;
@@ -96,13 +96,13 @@ export const addProduct = async (req, res) => {
           name: name,
           category: category || undefined,
           categorymain: categorymain || undefined,
-          seri: seri,
+          seri: seri || undefined,
           options: options,
           descriptions: descriptions,
           link: urlvideo,
           image: urlimage,
           uploadDate: new Date(),
-          price: price,
+          view: view,
           copyright: copyright,
           LinkCopyright: LinkCopyright,
           typeId: typeId || undefined,
@@ -153,7 +153,7 @@ export const addProduct = async (req, res) => {
         seri: seri,
         descriptions: descriptions,
         uploadDate: new Date(),
-        price: price,
+        view: view,
         copyright: copyright,
         LinkCopyright: LinkCopyright,
         trailer: trailer
@@ -186,6 +186,7 @@ export const delete_ = async (req, res, next) => {
 
     // Xóa tệp video từ Firebase Storage
     const videoFileName = deletedProduct.link.split('/').pop().split('?alt=media')[0]; // Lấy tên tệp video từ URL
+    console.log(videoFileName);
     const videoFile = admin.storage().bucket(bucketName).file(videoFileName);
     if (videoFileName) {
       await videoFile.delete();
@@ -195,6 +196,7 @@ export const delete_ = async (req, res, next) => {
     const imageFileName = deletedProduct.image.split(`/`).pop().split('?alt=media')[0]; // Lấy tên tệp hình ảnh từ URL
     const decodedImage = decodeURIComponent(imageFileName).split('/')[1]; //
     const imageFile = admin.storage().bucket(bucketName).file(`${folderName}/${decodedImage}`); //còn thằng này không có folder mà là lấy chay nên phải lấy ra thằng cuối cùng .
+    console.log(decodedImage, imageFileName);
     if (decodedImage) {
       await imageFile.delete();
     }
@@ -254,8 +256,7 @@ export const editProduct = async (req, res, next) => {
     }
 
     findById.name = name;
-    findById.category = category;
-    findById.seri = seri;
+    findById.seri = seri || undefined;
     findById.descriptions = descriptions;
     // image: image,
     // link: link,
@@ -266,13 +267,14 @@ export const editProduct = async (req, res, next) => {
     findById.trailer = trailer;
     findById.country = country;
     findById.year = year;
-    findById.categorymain = categorymain;
-    findById.typeId = typeId;
+    findById.categorymain = categorymain || undefined;
+    findById.category = category || undefined;
+    findById.typeId = typeId || undefined;
 
     const newVideoFile = req.files['file'] && req.files['file'][0];;
     const newImageFile = req.files['image'] && req.files['image'][0];
 
-    if (newVideoFile && newImageFile) {
+    if (newVideoFile || newImageFile) {
 
       // Xóa tệp hình ảnh cũ từ Firebase Storage
       const oldImageFileName = findById.image.split(`/`).pop().split('?alt=media')[0]; //lấy sau thằng image vì nó qua folder name là image
@@ -314,7 +316,7 @@ export const editProduct = async (req, res, next) => {
 
       //encode url
       const encodedFileName = encodeURIComponent(fileNameImage);
-      streamImage && streamVideo.on('finish', async () => {
+      streamImage || streamVideo.on('finish', async () => {
 
         const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${encodedFileName}?alt=media`;
         const videoUrl = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${fileNameVideo}?alt=media`;
@@ -327,11 +329,11 @@ export const editProduct = async (req, res, next) => {
         findById.trailer = trailer;
         findById.country = country;
         findById.year = year;
-        findById.categorymain = categorymain;
-        findById.typeId = typeId;
         findById.image = imageUrl;
         findById.link = videoUrl;
-
+        findById.typeId = typeId || undefined;
+        findById.category = category || undefined;
+        findById.categorymain = categorymain || undefined;
         // lưu vào database
         const data = await findById.save();
 
@@ -339,21 +341,23 @@ export const editProduct = async (req, res, next) => {
       })
     } else {
       // Không có tệp hình ảnh mới, chỉ cập nhật các thông tin khác của sản phẩm
-      findById.seri = seri;
       findById.options = options;
       findById.copyright = copyright;
       findById.LinkCopyright = LinkCopyright;
       findById.trailer = trailer;
       findById.country = country;
       findById.year = year;
+      findById.seri = seri || undefined;
       findById.categorymain = categorymain;
       findById.typeId = typeId;
+      findById.category = category;
 
       await findById.save();
       return res.status(200).json({ success: true, message: "Dữ liệu sản phẩm đã được cập nhật.", data: findById });
     }
     // add
   } catch (error) {
+    console.log(error);
     return res.status(400).json({
       message: error.message
     })
@@ -450,13 +454,13 @@ export const pushtoTypes = async (req, res) => {
   }
 }
 
-export const pushToWeek = async () => {
+export const pushToWeek = async (req,res) => {
   try {
     const productId = req.params.id;
     const body = req.body;
     const data = await Products.findById(productId);
     const newData = await WeekCategory.findByIdAndUpdate(body.weekId, {
-      $addToSet: { category: data },
+      $addToSet: { products: data },
     })
     res.json(newData);
   } catch (error) {

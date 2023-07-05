@@ -6,8 +6,14 @@ const weekSchema = new mongoose.Schema({
   },
   category: [
     {
-      type: mongoose.Types.ObjectId,
-      ref: "Category"
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+    }
+  ],
+  products:[
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Products",
     }
   ]
 });

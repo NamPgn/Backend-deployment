@@ -5,6 +5,9 @@ const productSchema = new Schema({
   name: {
     type: String
   },
+  view: {
+    type: Number
+  },
   image: {
     type: String
   },
@@ -12,11 +15,11 @@ const productSchema = new Schema({
     type: String
   },
   category: {
-    type: ObjectId,
+    type: ObjectId || undefined,
     ref: "Category",
   },
   seri: {
-    type: String
+    type: String || undefined,
   },
   select: {
     type: Boolean,
@@ -60,7 +63,7 @@ const productSchema = new Schema({
     ref: 'Types',
     required: false,
   }
-}, { timestamps: true });
+}, { timestamps: true, validateBeforeSave:false });
 productSchema.indexes();
 productSchema.plugin(mongoosePaginate);
 export default mongoose.model("Products", productSchema);
